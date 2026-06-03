@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,200..800;1,9..144,200..800&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+:root {
+  --bg: #0a0a0c;
+  --card-bg: #16161a;
+  --accent: #3b82f6;
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Custom pottery craft ambient effects */
+body {
+  background-color: #0a0a0c;
+  color: #ffffff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Custom ranges for bento theme */
+input[type="range"] {
+  accent-color: #3b82f6;
+}
+
+/* Scrollbar customizations */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0c;
+}
+::-webkit-scrollbar-thumb {
+  background: #232329;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6;
+}
+
