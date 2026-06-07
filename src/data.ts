@@ -160,6 +160,186 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
       totalHeightCm: 42
     }
   },
+  {
+    id: 'h-05',
+    name: 'EVA Soap Case (Solid Pastel) - Pink',
+    category: 'household',
+    subCategory: 'Plastic items',
+    tagline: 'Premium BPA-free double-tray design in soothing solid pink.',
+    description: 'A durable, premium grade solid-hue pastel soap case utilizing 100% food-grade virgin polymers. Features an inner dry-drainage tray that separates soap from water to prevent waste.',
+    wholesalePrice: 270,
+    unitName: 'Box of 12 Cases (Pink)',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    specifications: {
+      'Color Option': 'Solid Pink',
+      'Material': '100% Virgin BPA-Free PP',
+      'Features': 'Inner Drainage Tray',
+      'Retail MRP': '₹65 per piece',
+      'Wholesale Rate': '₹22.50 per piece'
+    },
+    blueprintShape: {
+      neckWidth: 0.85,
+      neckLength: 0.08,
+      shoulderWidth: 0.80,
+      shoulderHeight: 0.35,
+      bellyWidth: 0.95,
+      bellyHeight: 0.25,
+      baseWidth: 0.75,
+      totalHeightCm: 12
+    }
+  },
+  {
+    id: 'h-06',
+    name: 'EVA Soap Case (Solid Pastel) - Blue',
+    category: 'household',
+    subCategory: 'Plastic items',
+    tagline: 'Premium BPA-free double-tray design in soothing solid blue.',
+    description: 'A durable, premium grade solid-hue pastel soap case utilizing 100% food-grade virgin polymers. Features an inner dry-drainage tray that separates soap from water to prevent waste.',
+    wholesalePrice: 270,
+    unitName: 'Box of 12 Cases (Blue)',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    specifications: {
+      'Color Option': 'Solid Blue',
+      'Material': '100% Virgin BPA-Free PP',
+      'Features': 'Inner Drainage Tray',
+      'Retail MRP': '₹65 per piece',
+      'Wholesale Rate': '₹22.50 per piece'
+    },
+    blueprintShape: {
+      neckWidth: 0.85,
+      neckLength: 0.08,
+      shoulderWidth: 0.80,
+      shoulderHeight: 0.35,
+      bellyWidth: 0.95,
+      bellyHeight: 0.25,
+      baseWidth: 0.75,
+      totalHeightCm: 12
+    }
+  },
+  {
+    id: 'h-07',
+    name: 'EVA Soap Case (Solid Pastel) - Beige',
+    category: 'household',
+    subCategory: 'Plastic items',
+    tagline: 'Premium BPA-free double-tray design in elegant solid beige.',
+    description: 'A durable, premium grade solid-hue pastel soap case utilizing 100% food-grade virgin polymers. Features an inner dry-drainage tray that separates soap from water to prevent waste.',
+    wholesalePrice: 270,
+    unitName: 'Box of 12 Cases (Beige)',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    specifications: {
+      'Color Option': 'Solid Beige',
+      'Material': '100% Virgin BPA-Free PP',
+      'Features': 'Inner Drainage Tray',
+      'Retail MRP': '₹65 per piece',
+      'Wholesale Rate': '₹22.50 per piece'
+    },
+    blueprintShape: {
+      neckWidth: 0.85,
+      neckLength: 0.08,
+      shoulderWidth: 0.80,
+      shoulderHeight: 0.35,
+      bellyWidth: 0.95,
+      bellyHeight: 0.25,
+      baseWidth: 0.75,
+      totalHeightCm: 12
+    }
+  },
+  {
+    id: 'h-08',
+    name: 'EVA Soap Case (Crystal Dot) - Pink',
+    category: 'household',
+    subCategory: 'Plastic items',
+    tagline: 'Elegant "Pure Care" translucent design with textured dots in pink.',
+    description: 'Part of our premium "Pure Care" range. Features a stylish transparent-tint dotted textured lid with a high-strength latch and a high-drainage internal separator grid.',
+    wholesalePrice: 270,
+    unitName: 'Box of 12 Cases (Pink)',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    specifications: {
+      'Color Option': 'Crystal Pink',
+      'Material': 'Textured Clear Virgin PP',
+      'Range Name': 'Pure Care Series',
+      'Retail MRP': '₹65 per piece',
+      'Wholesale Rate': '₹22.50 per piece'
+    },
+    blueprintShape: {
+      neckWidth: 0.88,
+      neckLength: 0.06,
+      shoulderWidth: 0.82,
+      shoulderHeight: 0.30,
+      bellyWidth: 0.98,
+      bellyHeight: 0.22,
+      baseWidth: 0.78,
+      totalHeightCm: 12
+    }
+  },
+  {
+    id: 'h-09',
+    name: 'EVA Soap Case (Crystal Dot) - Blue',
+    category: 'household',
+    subCategory: 'Plastic items',
+    tagline: 'Elegant "Pure Care" translucent design with textured dots in blue.',
+    description: 'Part of our premium "Pure Care" range. Features a stylish transparent-tint dotted textured lid with a high-strength latch and a high-drainage internal separator grid.',
+    wholesalePrice: 270,
+    unitName: 'Box of 12 Cases (Blue)',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    specifications: {
+      'Color Option': 'Crystal Blue',
+      'Material': 'Textured Clear Virgin PP',
+      'Range Name': 'Pure Care Series',
+      'Retail MRP': '₹65 per piece',
+      'Wholesale Rate': '₹22.50 per piece'
+    },
+    blueprintShape: {
+      neckWidth: 0.88,
+      neckLength: 0.06,
+      shoulderWidth: 0.82,
+      shoulderHeight: 0.30,
+      bellyWidth: 0.98,
+      bellyHeight: 0.22,
+      baseWidth: 0.78,
+      totalHeightCm: 12
+    }
+  },
+  {
+    id: 'h-10',
+    name: 'EVA Soap Case (Crystal Dot) - Beige',
+    category: 'household',
+    subCategory: 'Plastic items',
+    tagline: 'Elegant "Pure Care" translucent design with textured dots in beige.',
+    description: 'Part of our premium "Pure Care" range. Features a stylish transparent-tint dotted textured lid with a high-strength latch and a high-drainage internal separator grid.',
+    wholesalePrice: 270,
+    unitName: 'Box of 12 Cases (Beige)',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    specifications: {
+      'Color Option': 'Crystal Amber/Beige',
+      'Material': 'Textured Clear Virgin PP',
+      'Range Name': 'Pure Care Series',
+      'Retail MRP': '₹65 per piece',
+      'Wholesale Rate': '₹22.50 per piece'
+    },
+    blueprintShape: {
+      neckWidth: 0.88,
+      neckLength: 0.06,
+      shoulderWidth: 0.82,
+      shoulderHeight: 0.30,
+      bellyWidth: 0.98,
+      bellyHeight: 0.22,
+      baseWidth: 0.78,
+      totalHeightCm: 12
+    }
+  },
 
   // --- PACKING MATERIALS ---
   {

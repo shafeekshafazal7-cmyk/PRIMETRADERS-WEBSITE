@@ -871,7 +871,7 @@ Please register our store and send early wholesale partner sheets before the gra
                         onChange={(e) => setDealerForm(prev => ({ ...prev, productInterest: e.target.value }))}
                         className="w-full bg-[#091124] rounded-xl border border-blue-900/30 p-3 text-xs text-white focus:outline-none focus:border-orange-500"
                       >
-                        <option value="Household Items" className="bg-[#070b13] text-white">Household Items (Squeegees, Bins, Canisters)</option>
+                        <option value="Household Items" className="bg-[#070b13] text-white">Household Items (Squeegees, Bins, Soap Cases, Canisters)</option>
                         <option value="Packing Materials" className="bg-[#070b13] text-white">Packing Materials (Bubble, Tape, Box, stretch)</option>
                         <option value="Custom Brand Printing" className="bg-[#070b13] text-white">Custom Carrying Bags & Branded Carton printing</option>
                       </select>
