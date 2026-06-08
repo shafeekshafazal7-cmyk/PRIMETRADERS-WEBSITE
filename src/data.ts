@@ -15,6 +15,7 @@ export interface WholesaleProduct {
   minOrderQty: number; // minimum bundles/units
   gstRate: number; // typically 18% or 12%
   isAvailable: boolean;
+  imageUrl?: string;
   specifications: { [key: string]: string };
   blueprintShape: {
     neckWidth: number;
@@ -56,6 +57,7 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
     minOrderQty: 5,
     gstRate: 18,
     isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1581578731548-c64695cc6954?auto=format&fit=crop&w=400&q=80',
     specifications: {
       'Blade Width': '60 cm',
       'Material': 'Anodized Steel + Foam Rubber',
@@ -85,6 +87,7 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
     minOrderQty: 10,
     gstRate: 18,
     isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?auto=format&fit=crop&w=400&q=80',
     specifications: {
       'Volume Spec': '1.2L, 0.8L, 0.5L Jars',
       'Seal Compound': 'Food-Grade Silicone',
@@ -114,6 +117,7 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
     minOrderQty: 3,
     gstRate: 18,
     isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=400&q=80',
     specifications: {
       'Capacity': '65 Liters',
       'Material': 'Virgin HDPE Polymer',
@@ -143,6 +147,7 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
     minOrderQty: 12,
     gstRate: 18,
     isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1610557892470-7617478aa836?auto=format&fit=crop&w=400&q=80',
     specifications: {
       'Capacity': '12 Liters',
       'Mechanism': 'Steel Pedal & Air Damper',
@@ -172,6 +177,7 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
     minOrderQty: 1,
     gstRate: 18,
     isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1607006342460-7a32ea3fa879?auto=format&fit=crop&w=400&q=80',
     specifications: {
       'Color Option': 'Solid Pink',
       'Material': '100% Virgin BPA-Free PP',
@@ -202,6 +208,7 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
     minOrderQty: 1,
     gstRate: 18,
     isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?auto=format&fit=crop&w=400&q=80',
     specifications: {
       'Color Option': 'Solid Blue',
       'Material': '100% Virgin BPA-Free PP',
@@ -232,6 +239,7 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
     minOrderQty: 1,
     gstRate: 18,
     isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1605264964528-06403738d6df?auto=format&fit=crop&w=400&q=80',
     specifications: {
       'Color Option': 'Solid Beige',
       'Material': '100% Virgin BPA-Free PP',
@@ -262,6 +270,7 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
     minOrderQty: 1,
     gstRate: 18,
     isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1605264964521-827db83501a4?auto=format&fit=crop&w=400&q=80',
     specifications: {
       'Color Option': 'Crystal Pink',
       'Material': 'Textured Clear Virgin PP',
@@ -292,6 +301,7 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
     minOrderQty: 1,
     gstRate: 18,
     isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1528740561666-ac2479db0202?auto=format&fit=crop&w=400&q=80',
     specifications: {
       'Color Option': 'Crystal Blue',
       'Material': 'Textured Clear Virgin PP',
@@ -322,6 +332,7 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
     minOrderQty: 1,
     gstRate: 18,
     isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?auto=format&fit=crop&w=400&q=80',
     specifications: {
       'Color Option': 'Crystal Amber/Beige',
       'Material': 'Textured Clear Virgin PP',
@@ -354,6 +365,7 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
     minOrderQty: 8,
     gstRate: 12,
     isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1530587191325-3db32d826c18?auto=format&fit=crop&w=400&q=80',
     specifications: {
       'Bubble Diameter': '10 mm',
       'Roll Width': '1.2 Meters',
@@ -383,6 +395,7 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
     minOrderQty: 5,
     gstRate: 18,
     isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=400&q=80',
     specifications: {
       'Tape Width': '72 mm (3 Inches)',
       'Film Gauge': '50 Microns',
@@ -412,6 +425,7 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
     minOrderQty: 4,
     gstRate: 12,
     isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=400&q=80',
     specifications: {
       'Metric Size': '45cm x 45cm x 45cm',
       'Bursting Factor': '24 kgF/cm²',
@@ -441,6 +455,7 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
     minOrderQty: 6,
     gstRate: 18,
     isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=400&q=80',
     specifications: {
       'Roll Width': '50 cm',
       'Film Thickness': '23 Microns Super-Puncture',
@@ -470,6 +485,7 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
     minOrderQty: 10,
     gstRate: 18,
     isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=400&q=80',
     specifications: {
       'Bag Dimension': '16 x 20 Inches + 4 Inch Gusset',
       'Thickness Gauge': '55 Microns Reinforced',

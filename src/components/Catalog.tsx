@@ -19,7 +19,8 @@ import {
   Truck, 
   Check, 
   Package, 
-  AlertCircle 
+  AlertCircle,
+  Image as ImageIcon
 } from 'lucide-react';
 
 interface CatalogProps {
@@ -32,6 +33,8 @@ export const Catalog: React.FC<CatalogProps> = ({ onLoadPiece, onAddToCart }) =>
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'household' | 'packing'>('all');
   const [justInStock, setJustInStock] = useState(false);
   const [addedProductNotification, setAddedProductNotification] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'photo' | 'blueprint'>('photo');
+  const [individualOverrides, setIndividualOverrides] = useState<{[key: string]: 'photo' | 'blueprint'}>({});
 
   // Filter and Search logic
   const filteredProducts = useMemo(() => {
@@ -144,6 +147,40 @@ export const Catalog: React.FC<CatalogProps> = ({ onLoadPiece, onAddToCart }) =>
           />
         </div>
 
+        {/* View Switcher: Real Photos / Specifications Blueprint */}
+        <div className="flex bg-[#0a0a0c] p-1 rounded-xl border border-white/5 shrink-0 select-none">
+          <button
+            type="button"
+            onClick={() => {
+              setViewMode('photo');
+              setIndividualOverrides({}); // clear overrides when switching globally
+            }}
+            className={`text-[10px] uppercase tracking-wider font-bold px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
+              viewMode === 'photo'
+                ? 'bg-orange-500 text-white shadow-xs'
+                : 'text-slate-400 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <ImageIcon size={12} />
+            <span>Real Gallery</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setViewMode('blueprint');
+              setIndividualOverrides({}); // clear overrides when switching globally
+            }}
+            className={`text-[10px] uppercase tracking-wider font-bold px-3.5 py-1.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
+              viewMode === 'blueprint'
+                ? 'bg-orange-500 text-white shadow-xs'
+                : 'text-slate-400 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <Sliders size={12} />
+            <span>Blueprints</span>
+          </button>
+        </div>
+
         {/* Available Checker */}
         <div className="flex items-center gap-2 shrink-0 select-none">
           <input
@@ -183,6 +220,7 @@ export const Catalog: React.FC<CatalogProps> = ({ onLoadPiece, onAddToCart }) =>
       ) : (
         <div id="catalog-card-grid" className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {filteredProducts.map((p) => {
+            const currentMode = individualOverrides[p.id] || viewMode;
             return (
               <div
                 key={p.id}
@@ -201,100 +239,134 @@ export const Catalog: React.FC<CatalogProps> = ({ onLoadPiece, onAddToCart }) =>
                   </div>
 
                   <div className="flex gap-4">
-                    {/* SVG Interactive Blueprint Indicator */}
-                    <div className="w-[110px] h-[125px] bg-[#0a0a0c] rounded-2xl border border-white/5 flex items-center justify-center shrink-0 overflow-hidden relative group">
-                      <span className="absolute top-2 left-2 text-[7px] font-mono tracking-wider text-slate-500 select-none">
-                        V-COORD
-                      </span>
-                      
-                      {/* SVG Technical Blueprints reflecting the actual items */}
-                      <svg width="100%" height="100%" viewBox="0 0 100 100" className="opacity-90">
-                        {/* Blueprint grid */}
-                        <line x1="50" y1="5" x2="50" y2="95" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" strokeDasharray="2 2" />
-                        <line x1="5" y1="50" x2="95" y2="50" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" strokeDasharray="2 2" />
-                        
-                        {p.category === 'packing' ? (
-                          <g stroke="#f97316" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                            {p.subCategory === 'Tape' && (
-                              <>
-                                <circle cx="50" cy="50" r="28" strokeWidth="3.5" />
-                                <circle cx="50" cy="50" r="16" strokeDasharray="3 2" />
-                                <circle cx="50" cy="50" r="10" fill="rgba(249,115,22,0.15)" strokeWidth="1" />
-                              </>
+                    {/* Visual representative panel (Real Photo or Blueprint) */}
+                    <div className="w-[110px] h-[125px] bg-[#0a0a0c] rounded-2xl border border-white/5 flex items-center justify-center shrink-0 overflow-hidden relative group/image">
+                      {currentMode === 'photo' && p.imageUrl ? (
+                        <>
+                          <img
+                            src={p.imageUrl}
+                            alt={p.name}
+                            referrerPolicy="no-referrer"
+                            className="w-full h-full object-cover rounded-2xl animate-fade-in transition-all duration-300"
+                          />
+                          <span className="absolute top-2 left-2 text-[7px] font-mono tracking-wider text-white/50 bg-black/60 px-1 py-0.5 rounded uppercase select-none">
+                            REAL
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="absolute top-2 left-2 text-[7px] font-mono tracking-wider text-slate-500 select-none">
+                            V-COORD
+                          </span>
+                          
+                          {/* SVG Technical Blueprints reflecting the actual items */}
+                          <svg width="100%" height="100%" viewBox="0 0 100 100" className="opacity-90">
+                            {/* Blueprint grid */}
+                            <line x1="50" y1="5" x2="50" y2="95" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" strokeDasharray="2 2" />
+                            <line x1="5" y1="50" x2="95" y2="50" stroke="rgba(255,255,255,0.08)" strokeWidth="0.5" strokeDasharray="2 2" />
+                            
+                            {p.category === 'packing' ? (
+                              <g stroke="#f97316" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                {p.subCategory === 'Tape' && (
+                                  <>
+                                    <circle cx="50" cy="50" r="28" strokeWidth="3.5" />
+                                    <circle cx="50" cy="50" r="16" strokeDasharray="3 2" />
+                                    <circle cx="50" cy="50" r="10" fill="rgba(249,115,22,0.15)" strokeWidth="1" />
+                                  </>
+                                )}
+                                {p.subCategory === 'Bubble wrap' && (
+                                  <>
+                                    <rect x="25" y="15" width="50" height="70" rx="3" strokeWidth="1.5" />
+                                    <circle cx="38" cy="30" r="3" fill="#f97316" />
+                                    <circle cx="50" cy="30" r="3" fill="#f97316" />
+                                    <circle cx="62" cy="30" r="3" fill="#f97316" />
+                                    <circle cx="38" cy="50" r="3" fill="#f97316" />
+                                    <circle cx="50" cy="50" r="3" fill="#f97316" />
+                                    <circle cx="62" cy="50" r="3" fill="#f97316" />
+                                    <circle cx="38" cy="70" r="3" fill="#f97316" />
+                                    <circle cx="50" cy="70" r="3" fill="#f97316" />
+                                    <circle cx="62" cy="70" r="3" fill="#f97316" />
+                                  </>
+                                )}
+                                {p.subCategory === 'Corrugated boxes' && (
+                                  <>
+                                    <path d="M 20 35 L 50 15 L 80 35 L 50 55 Z" />
+                                    <path d="M 20 35 L 20 70 L 50 90 L 50 55 Z" />
+                                    <path d="M 80 35 L 80 70 L 50 90 Z" />
+                                  </>
+                                )}
+                                {p.subCategory === 'Packaging rolls' && (
+                                  <>
+                                    <ellipse cx="50" cy="22" rx="20" ry="6" fill="rgba(249,115,22,0.1)" />
+                                    <line x1="30" y1="22" x2="30" y2="78" />
+                                    <line x1="70" y1="22" x2="70" y2="78" />
+                                    <ellipse cx="50" cy="78" rx="20" ry="6" />
+                                    <ellipse cx="50" cy="22" rx="20" ry="6" />
+                                    <line x1="50" y1="22" x2="50" y2="78" strokeDasharray="3 3" strokeWidth="1" />
+                                  </>
+                                )}
+                                {p.subCategory === 'Carry bags' && (
+                                  <>
+                                    <path d="M 30 35 L 70 35 L 75 88 L 25 88 Z" />
+                                    <path d="M 40 35 C 40 20, 60 20, 60 35" strokeWidth="2.2" />
+                                    <line x1="42" y1="55" x2="58" y2="55" strokeWidth="1" />
+                                    <line x1="42" y1="65" x2="58" y2="65" strokeWidth="1" />
+                                  </>
+                                )}
+                              </g>
+                            ) : (
+                              <g stroke="#3b82f6" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                {p.subCategory === 'Cleaning products' && (
+                                  <>
+                                    <line x1="15" y1="35" x2="85" y2="35" strokeWidth="3.2" />
+                                    <line x1="50" y1="35" x2="50" y2="90" strokeWidth="2.2" />
+                                    <path d="M 20 35 L 15 50 M 35 35 L 30 50 M 50 35 L 45 50 M 65 35 L 60 50 M 80 35 L 75 50" />
+                                  </>
+                                )}
+                                {p.subCategory === 'Storage containers' && (
+                                  <>
+                                    <rect x="30" y="25" width="40" height="55" rx="5" />
+                                    <line x1="30" y1="40" x2="70" y2="40" />
+                                    <rect x="38" y="15" width="24" height="10" rx="2" fill="rgba(59,130,246,0.15)" />
+                                  </>
+                                )}
+                                {p.subCategory === 'Plastic items' && (
+                                  <>
+                                    <ellipse cx="50" cy="30" rx="30" ry="10" />
+                                    <path d="M 20 30 C 20 30, 25 85, 32 85 L 68 85 C 75 85, 80 30, 80 30" />
+                                    <path d="M 15 30 L 10 30 M 85 30 L 90 30" strokeWidth="2.5" />
+                                  </>
+                                )}
+                                {p.subCategory === 'Kitchen accessories' && (
+                                  <>
+                                    <rect x="32" y="22" width="36" height="58" rx="8" />
+                                    <ellipse cx="50" cy="22" rx="18" ry="4" />
+                                    <circle cx="50" cy="74" r="3" fill="#3b82f6" />
+                                  </>
+                                )}
+                              </g>
                             )}
-                            {p.subCategory === 'Bubble wrap' && (
-                              <>
-                                <rect x="25" y="15" width="50" height="70" rx="3" strokeWidth="1.5" />
-                                <circle cx="38" cy="30" r="3" fill="#f97316" />
-                                <circle cx="50" cy="30" r="3" fill="#f97316" />
-                                <circle cx="62" cy="30" r="3" fill="#f97316" />
-                                <circle cx="38" cy="50" r="3" fill="#f97316" />
-                                <circle cx="50" cy="50" r="3" fill="#f97316" />
-                                <circle cx="62" cy="50" r="3" fill="#f97316" />
-                                <circle cx="38" cy="70" r="3" fill="#f97316" />
-                                <circle cx="50" cy="70" r="3" fill="#f97316" />
-                                <circle cx="62" cy="70" r="3" fill="#f97316" />
-                              </>
-                            )}
-                            {p.subCategory === 'Corrugated boxes' && (
-                              <>
-                                <path d="M 20 35 L 50 15 L 80 35 L 50 55 Z" />
-                                <path d="M 20 35 L 20 70 L 50 90 L 50 55 Z" />
-                                <path d="M 80 35 L 80 70 L 50 90 Z" />
-                              </>
-                            )}
-                            {p.subCategory === 'Packaging rolls' && (
-                              <>
-                                <ellipse cx="50" cy="22" rx="20" ry="6" fill="rgba(249,115,22,0.1)" />
-                                <line x1="30" y1="22" x2="30" y2="78" />
-                                <line x1="70" y1="22" x2="70" y2="78" />
-                                <ellipse cx="50" cy="78" rx="20" ry="6" />
-                                <ellipse cx="50" cy="22" rx="20" ry="6" />
-                                <line x1="50" y1="22" x2="50" y2="78" strokeDasharray="3 3" strokeWidth="1" />
-                              </>
-                            )}
-                            {p.subCategory === 'Carry bags' && (
-                              <>
-                                <path d="M 30 35 L 70 35 L 75 88 L 25 88 Z" />
-                                <path d="M 40 35 C 40 20, 60 20, 60 35" strokeWidth="2.2" />
-                                <line x1="42" y1="55" x2="58" y2="55" strokeWidth="1" />
-                                <line x1="42" y1="65" x2="58" y2="65" strokeWidth="1" />
-                              </>
-                            )}
-                          </g>
-                        ) : (
-                          <g stroke="#3b82f6" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                            {p.subCategory === 'Cleaning products' && (
-                              <>
-                                <line x1="15" y1="35" x2="85" y2="35" strokeWidth="3.2" />
-                                <line x1="50" y1="35" x2="50" y2="90" strokeWidth="2.2" />
-                                <path d="M 20 35 L 15 50 M 35 35 L 30 50 M 50 35 L 45 50 M 65 35 L 60 50 M 80 35 L 75 50" />
-                              </>
-                            )}
-                            {p.subCategory === 'Storage containers' && (
-                              <>
-                                <rect x="30" y="25" width="40" height="55" rx="5" />
-                                <line x1="30" y1="40" x2="70" y2="40" />
-                                <rect x="38" y="15" width="24" height="10" rx="2" fill="rgba(59,130,246,0.15)" />
-                              </>
-                            )}
-                            {p.subCategory === 'Plastic items' && (
-                              <>
-                                <ellipse cx="50" cy="30" rx="30" ry="10" />
-                                <path d="M 20 30 C 20 30, 25 85, 32 85 L 68 85 C 75 85, 80 30, 80 30" />
-                                <path d="M 15 30 L 10 30 M 85 30 L 90 30" strokeWidth="2.5" />
-                              </>
-                            )}
-                            {p.subCategory === 'Kitchen accessories' && (
-                              <>
-                                <rect x="32" y="22" width="36" height="58" rx="8" />
-                                <ellipse cx="50" cy="22" rx="18" ry="4" />
-                                <circle cx="50" cy="74" r="3" fill="#3b82f6" />
-                              </>
-                            )}
-                          </g>
-                        )}
-                      </svg>
+                          </svg>
+                        </>
+                      )}
+
+                      {/* Local Toggle Overriding System */}
+                      {p.imageUrl && (
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIndividualOverrides(prev => ({
+                              ...prev,
+                              [p.id]: currentMode === 'photo' ? 'blueprint' : 'photo'
+                            }));
+                          }}
+                          className="absolute right-1.5 bottom-1.5 bg-black/85 hover:bg-black p-1.5 rounded-lg text-slate-400 hover:text-white transition-all cursor-pointer border border-white/10 shadow-md select-none group/btn z-10"
+                          title={currentMode === 'photo' ? "Show Specifications Blueprint" : "Show Real Photo"}
+                        >
+                          {currentMode === 'photo' ? <Sliders size={10} /> : <ImageIcon size={10} />}
+                        </button>
+                      )}
                     </div>
 
                     {/* Details and Description */}
