@@ -351,6 +351,316 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
       totalHeightCm: 12
     }
   },
+  {
+    id: 'h-11',
+    name: 'CRISPY NEO LUNCH BOX',
+    category: 'household',
+    subCategory: 'Kitchen accessories',
+    tagline: 'Ergonomic multiple-lock insulated plastic lunch box set',
+    description: 'High-quality lunch container system featuring space-saving premium secure snap locks and food-grade airtight silicone safety gasket.',
+    wholesalePrice: 1649.36,
+    unitName: 'Box of 12 Units',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1599689017912-35a42095940c?auto=format&fit=crop&w=400&q=80',
+    specifications: {
+      'Purchase Price' : '₹104.00 per unit',
+      'Basic Price' : '₹116.48 per unit',
+      'Retail MRP' : '₹334.00',
+      'Case Quantity' : '12 Units',
+      'GST Rate' : '18%'
+    },
+    blueprintShape: {
+      neckWidth: 0.70,
+      neckLength: 0.10,
+      shoulderWidth: 0.80,
+      shoulderHeight: 0.40,
+      bellyWidth: 0.90,
+      bellyHeight: 0.30,
+      baseWidth: 0.70,
+      totalHeightCm: 14
+    }
+  },
+  {
+    id: 'h-12',
+    name: 'CRISPY NXT LUNCH BOX',
+    category: 'household',
+    subCategory: 'Kitchen accessories',
+    tagline: 'Advanced lock-tight leakproof dry lunch carrier set',
+    description: 'Sleek, next-generation portable food box with heavy-duty hinges and superior pressure-release seal that keeps food fresh.',
+    wholesalePrice: 1570.06,
+    unitName: 'Box of 12 Units',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1621574539437-4b7cb63120b8?auto=format&fit=crop&w=400&q=80',
+    specifications: {
+      'Purchase Price' : '₹99.00 per unit',
+      'Basic Price' : '₹110.88 per unit',
+      'Retail MRP' : '₹317.00',
+      'Case Quantity' : '12 Units',
+      'GST Rate' : '18%'
+    },
+    blueprintShape: {
+      neckWidth: 0.72,
+      neckLength: 0.09,
+      shoulderWidth: 0.82,
+      shoulderHeight: 0.38,
+      bellyWidth: 0.92,
+      bellyHeight: 0.28,
+      baseWidth: 0.72,
+      totalHeightCm: 14
+    }
+  },
+  {
+    id: 'h-13',
+    name: 'CRISPY LUNCH BOX',
+    category: 'household',
+    subCategory: 'Kitchen accessories',
+    tagline: 'Classic dual-compartment robust school & office lunch box',
+    description: 'Classic durable partition layout built from high-impact virgin polymers, featuring double snap-wings for extreme drop resistance.',
+    wholesalePrice: 1538.34,
+    unitName: 'Box of 12 Units',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&w=400&q=80',
+    specifications: {
+      'Purchase Price' : '₹97.00 per unit',
+      'Basic Price' : '₹108.64 per unit',
+      'Retail MRP' : '₹310.00',
+      'Case Quantity' : '12 Units',
+      'GST Rate' : '18%'
+    },
+    blueprintShape: {
+      neckWidth: 0.75,
+      neckLength: 0.08,
+      shoulderWidth: 0.85,
+      shoulderHeight: 0.35,
+      bellyWidth: 0.95,
+      bellyHeight: 0.25,
+      baseWidth: 0.75,
+      totalHeightCm: 12
+    }
+  },
+  {
+    id: 'h-14',
+    name: 'THERMO-COOL VACUUM STEEL BOTTLE 1000',
+    category: 'household',
+    subCategory: 'Kitchen accessories',
+    tagline: 'Double-walled steel companion vacuum flask',
+    description: 'Premium grade food-safe 18/8 stainless steel bottle offering elite vacuum insulation technology. Ideal for continuous travel or rigorous work cycles.',
+    wholesalePrice: 540.53,
+    unitName: 'Single Premium Bottle',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=400&q=80',
+    specifications: {
+      'Purchase Price' : '₹409.00 per unit',
+      'Basic Price' : '₹458.08 per unit',
+      'Retail MRP' : '₹1,099.00',
+      'Case Quantity' : '1 Bottle',
+      'GST Rate' : '18%'
+    },
+    blueprintShape: {
+      neckWidth: 0.30,
+      neckLength: 0.18,
+      shoulderWidth: 0.45,
+      shoulderHeight: 0.55,
+      bellyWidth: 0.60,
+      bellyHeight: 0.25,
+      baseWidth: 0.55,
+      totalHeightCm: 32
+    }
+  },
+  {
+    id: 'h-15',
+    name: 'PURE 1.5 1500 ML (STEEL CAP)',
+    category: 'household',
+    subCategory: 'Storage containers',
+    tagline: 'Premium high-capacity clear fridge bottle with stainless steel cap',
+    description: 'Perfect 1.5-liter storage vessel molded from crystal clean food-safe PET polymer. Features a high-integrity metal screw-threads cap to prevent spills.',
+    wholesalePrice: 753.31,
+    unitName: 'Box of 12 Bottles',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&w=400&q=80',
+    specifications: {
+      'Purchase Price' : '₹47.50 per unit',
+      'Basic Price' : '₹53.20 per unit',
+      'Retail MRP' : '₹152.00',
+      'Case Quantity' : '12 Bottles',
+      'GST Rate' : '18%'
+    },
+    blueprintShape: {
+      neckWidth: 0.32,
+      neckLength: 0.15,
+      shoulderWidth: 0.55,
+      shoulderHeight: 0.58,
+      bellyWidth: 0.65,
+      bellyHeight: 0.28,
+      baseWidth: 0.58,
+      totalHeightCm: 29
+    }
+  },
+  {
+    id: 'h-16',
+    name: 'PURE 1.5 1500 ML (P.C. CAP)',
+    category: 'household',
+    subCategory: 'Storage containers',
+    tagline: 'Unbreakable premium fridge storage bottle with heavy poly-carbonate cap',
+    description: 'High-clarity durable pet bottle featuring an extremely robust solid color Poly-carbonate cap designed for safe long-term cooling storage.',
+    wholesalePrice: 753.31,
+    unitName: 'Box of 12 Bottles',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1522204523234-e7edae5139c1?auto=format&fit=crop&w=400&q=80',
+    specifications: {
+      'Purchase Price' : '₹47.50 per unit',
+      'Basic Price' : '₹53.20 per unit',
+      'Retail MRP' : '₹152.00',
+      'Case Quantity' : '12 Bottles',
+      'GST Rate' : '18%'
+    },
+    blueprintShape: {
+      neckWidth: 0.34,
+      neckLength: 0.14,
+      shoulderWidth: 0.54,
+      shoulderHeight: 0.60,
+      bellyWidth: 0.64,
+      bellyHeight: 0.26,
+      baseWidth: 0.56,
+      totalHeightCm: 29
+    }
+  },
+  {
+    id: 'h-17',
+    name: 'MANGO 1500 1500 ML',
+    category: 'household',
+    subCategory: 'Storage containers',
+    tagline: 'Ergonomic heavy-ribbed grip fridge bottle set',
+    description: 'Elegantly shaped 1500 ml fridge bottles molded with parallel slip-resistant ribs for superior tactile grip. Crafted from eco-friendly premium polymers.',
+    wholesalePrice: 864.33,
+    unitName: 'Box of 12 Bottles',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1608889175123-8ec330b86f84?auto=format&fit=crop&w=400&q=80',
+    specifications: {
+      'Purchase Price' : '₹54.50 per unit',
+      'Basic Price' : '₹61.04 per unit',
+      'Retail MRP' : '₹174.00',
+      'Case Quantity' : '12 Bottles',
+      'GST Rate' : '18%'
+    },
+    blueprintShape: {
+      neckWidth: 0.33,
+      neckLength: 0.13,
+      shoulderWidth: 0.58,
+      shoulderHeight: 0.57,
+      bellyWidth: 0.68,
+      bellyHeight: 0.27,
+      baseWidth: 0.60,
+      totalHeightCm: 28
+    }
+  },
+  {
+    id: 'h-18',
+    name: 'VELVET 1500 1500 ML',
+    category: 'household',
+    subCategory: 'Storage containers',
+    tagline: 'Luxurious velvet-smooth frosted fluid container',
+    description: 'High-end cosmetic frosted-finish water server featuring smooth, micro-textured premium handfeel, strong puncture resistive shell, and thick base.',
+    wholesalePrice: 864.33,
+    unitName: 'Box of 12 Bottles',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=400&q=80',
+    specifications: {
+      'Purchase Price' : '₹54.50 per unit',
+      'Basic Price' : '₹61.04 per unit',
+      'Retail MRP' : '₹174.00',
+      'Case Quantity' : '12 Bottles',
+      'GST Rate' : '18%'
+    },
+    blueprintShape: {
+      neckWidth: 0.35,
+      neckLength: 0.15,
+      shoulderWidth: 0.55,
+      shoulderHeight: 0.60,
+      bellyWidth: 0.65,
+      bellyHeight: 0.25,
+      baseWidth: 0.55,
+      totalHeightCm: 28
+    }
+  },
+  {
+    id: 'h-19',
+    name: 'ARIZONA 1000 1000 ML',
+    category: 'household',
+    subCategory: 'Storage containers',
+    tagline: 'Compact high-rigidity heavy structural gyms and fridge bottle',
+    description: 'Built-to-last 1000 ml water holder engineered using a heavy density thick-wall process. Designed with an easy-sip custom flow cap.',
+    wholesalePrice: 824.68,
+    unitName: 'Box of 12 Bottles',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=400&q=80',
+    specifications: {
+      'Purchase Price' : '₹52.00 per unit',
+      'Basic Price' : '₹58.24 per unit',
+      'Retail MRP' : '₹167.00',
+      'Case Quantity' : '12 Bottles',
+      'GST Rate' : '18%'
+    },
+    blueprintShape: {
+      neckWidth: 0.34,
+      neckLength: 0.12,
+      shoulderWidth: 0.52,
+      shoulderHeight: 0.54,
+      bellyWidth: 0.62,
+      bellyHeight: 0.23,
+      baseWidth: 0.54,
+      totalHeightCm: 24
+    }
+  },
+  {
+    id: 'h-20',
+    name: 'FLORIDA 1000 1000 ML',
+    category: 'household',
+    subCategory: 'Storage containers',
+    tagline: 'Minimalist clean-cylindrical hydration bottle',
+    description: 'Perfect round-body minimalist fluid model created using advanced transparency resins. Aesthetic design matching stylish dining and travel sets.',
+    wholesalePrice: 824.68,
+    unitName: 'Box of 12 Bottles',
+    minOrderQty: 1,
+    gstRate: 18,
+    isAvailable: true,
+    imageUrl: 'https://images.unsplash.com/photo-1548839140-29a8a18fa394?auto=format&fit=crop&w=400&q=80',
+    specifications: {
+      'Purchase Price' : '₹52.00 per unit',
+      'Basic Price' : '₹58.24 per unit',
+      'Retail MRP' : '₹167.00',
+      'Case Quantity' : '12 Bottles',
+      'GST Rate' : '18%'
+    },
+    blueprintShape: {
+      neckWidth: 0.32,
+      neckLength: 0.13,
+      shoulderWidth: 0.50,
+      shoulderHeight: 0.55,
+      bellyWidth: 0.60,
+      bellyHeight: 0.24,
+      baseWidth: 0.52,
+      totalHeightCm: 24
+    }
+  },
 
   // --- PACKING MATERIALS ---
   {
