@@ -67,32 +67,32 @@ export const PrimeLogo: React.FC<PrimeLogoProps> = ({
             className="dark-split-mask"
           />
 
-          {/* Bold Serif 'P' and 'T' letters placed within the house interior */}
+          {/* Bold Serif 'P' and 'T' letters placed within the house interior, forming the official monogram */}
           {/* Staggered and fitted beautifully like the brand image */}
           {/* Left letter: P */}
           <text 
-            x="76" 
-            y="132" 
+            x="74" 
+            y="134" 
             fill="#ffffff" 
             fontFamily="'Fraunces', Georgia, 'Times New Roman', serif" 
             fontSize="54" 
-            fontWeight="900" 
+            fontWeight="800" 
             textAnchor="middle"
-            letterSpacing="-0.05em"
+            letterSpacing="-0.04em"
           >
             P
           </text>
 
           {/* Right letter: T */}
           <text 
-            x="122" 
-            y="132" 
+            x="126" 
+            y="134" 
             fill="#ffffff" 
             fontFamily="'Fraunces', Georgia, 'Times New Roman', serif" 
             fontSize="54" 
-            fontWeight="900" 
+            fontWeight="800" 
             textAnchor="middle"
-            letterSpacing="-0.05em"
+            letterSpacing="-0.04em"
           >
             T
           </text>
@@ -103,11 +103,11 @@ export const PrimeLogo: React.FC<PrimeLogoProps> = ({
       {showText && (
         <div className="flex flex-col items-center mt-3 text-center">
           <span 
-            className={`font-sans tracking-tight text-[26px] font-normal transition-colors ${textColor}`}
-            style={{ letterSpacing: '-0.025em', fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif' }}
+            className={`font-sans tracking-tight text-[28px] font-normal transition-colors ${textColor}`}
+            style={{ letterSpacing: '-0.035em', fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif' }}
           >
-            <span className="font-semibold">Prime</span>{' '}
-            <span className="font-light">Traders</span>
+            <span className="font-bold text-[#043259]">Prime</span>
+            <span className="font-medium text-[#043259]">Traders</span>
           </span>
           <span className="font-sans text-[10px] sm:text-[10.5px] font-extrabold uppercase tracking-[0.16em] text-[#e35a11] mt-2 max-w-[280px] leading-relaxed mx-auto">
             YOUR TRUSTED WHOLESALE PARTNER FOR
