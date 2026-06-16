@@ -17,6 +17,7 @@ import { AIPotteryForge } from './components/AIPotteryForge';
 import { Catalog } from './components/Catalog';
 import { PrimeLogo } from './components/PrimeLogo';
 import { NoticesDashboard } from './components/NoticesDashboard';
+import { MonsoonRainFX } from './components/MonsoonRainFX';
 import { 
   Compass, 
   Sparkles, 
@@ -57,6 +58,9 @@ const DEFAULT_SHAPE: CeramicShape = {
 export default function App() {
   // Navigation: 'landing' (Bento Home) | 'catalog' (B2B Products) | 'forge' (AI Freight) | 'atelier' (Specs & Logo Canvas) | 'notices' (Offers and Posters dashboard)
   const [activeTab, setActiveTab] = useState<'landing' | 'catalog' | 'forge' | 'atelier' | 'notices'>('landing');
+
+  // Immersive Seasonal Monsoon Theme State
+  const [isMonsoonMode, setIsMonsoonMode] = useState<boolean>(true);
 
   // Active Builder State (using existing names for perfect compilation safety)
   const [currentShape, setCurrentShape] = useState<CeramicShape>(DEFAULT_SHAPE);
@@ -244,29 +248,57 @@ Please register our store and send early wholesale partner sheets before the gra
   };
 
   return (
-    <div id="prime-agency-app" className="min-h-screen bg-[#FAF7EE] text-slate-800 font-sans antialiased flex flex-col justify-between relative overflow-x-hidden select-none">
+    <div 
+      id="prime-agency-app" 
+      className={`min-h-screen font-sans antialiased flex flex-col justify-between relative overflow-x-hidden select-none transition-all duration-700 ${
+        isMonsoonMode ? 'bg-[#030a16] text-sky-100' : 'bg-[#FAF7EE] text-slate-800'
+      }`}
+    >
       
       {/* 
         IMMERSIVE WAREHOUSE AISLE BACKGROUND
         Renders receding high shelves on left & right margins, warm overhead spotlight flares, 
         and bright floor hallway reflections representing the official brand environment image perfectly.
       */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden select-none z-0 mix-blend-multiply opacity-75">
+      <div className={`fixed inset-0 pointer-events-none overflow-hidden select-none z-0 transition-opacity duration-700 ${
+        isMonsoonMode ? 'opacity-25 mix-blend-screen' : 'mix-blend-multiply opacity-75'
+      }`}>
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
           <defs>
             {/* Soft warehouse ambient floor and wall values */}
             <radialGradient id="warehouseGlobalGlow" cx="50%" cy="35%" r="75%">
-              <stop offset="0%" stopColor="#FFFFFF" />
-              <stop offset="25%" stopColor="#FAF7EE" />
-              <stop offset="65%" stopColor="#FAF4E5" />
-              <stop offset="100%" stopColor="#E6DCC4" />
+              {isMonsoonMode ? (
+                <>
+                  <stop offset="0%" stopColor="#1E293B" />
+                  <stop offset="25%" stopColor="#0F172A" />
+                  <stop offset="65%" stopColor="#020617" />
+                  <stop offset="100%" stopColor="#000000" />
+                </>
+              ) : (
+                <>
+                  <stop offset="0%" stopColor="#FFFFFF" />
+                  <stop offset="25%" stopColor="#FAF7EE" />
+                  <stop offset="65%" stopColor="#FAF4E5" />
+                  <stop offset="100%" stopColor="#E6DCC4" />
+                </>
+              )}
             </radialGradient>
 
             {/* Radiant ceiling linear spot lights mimicking the supermarket overhead tubes */}
             <radialGradient id="ceilingLightMain" cx="50%" cy="5%" r="45%">
-              <stop offset="0%" stopColor="#FFFDF2" stopOpacity="0.95" />
-              <stop offset="50%" stopColor="#FAF7EE" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="#E6DCC4" stopOpacity="0" />
+              {isMonsoonMode ? (
+                <>
+                  <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.4" />
+                  <stop offset="50%" stopColor="#0F172A" stopOpacity="0.2" />
+                  <stop offset="100%" stopColor="#020617" stopOpacity="0" />
+                </>
+              ) : (
+                <>
+                  <stop offset="0%" stopColor="#FFFDF2" stopOpacity="0.95" />
+                  <stop offset="50%" stopColor="#FAF7EE" stopOpacity="0.5" />
+                  <stop offset="100%" stopColor="#E6DCC4" stopOpacity="0" />
+                </>
+              )}
             </radialGradient>
 
             {/* Focus blurs matching camera depth of field */}
@@ -279,9 +311,19 @@ Please register our store and send early wholesale partner sheets before the gra
 
             {/* Seamless floor high reflection glow */}
             <linearGradient id="floorReflection" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
-              <stop offset="45%" stopColor="#FAF7EE" stopOpacity="0.7" />
-              <stop offset="100%" stopColor="#FAF4E5" stopOpacity="0" />
+              {isMonsoonMode ? (
+                <>
+                  <stop offset="0%" stopColor="#0B1528" stopOpacity="0.95" />
+                  <stop offset="45%" stopColor="#070E1B" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="#030710" stopOpacity="0" />
+                </>
+              ) : (
+                <>
+                  <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+                  <stop offset="45%" stopColor="#FAF7EE" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="#FAF4E5" stopOpacity="0" />
+                </>
+              )}
             </linearGradient>
           </defs>
 
@@ -347,8 +389,12 @@ Please register our store and send early wholesale partner sheets before the gra
         </svg>
       </div>
       
-      {/* 1. STATE-OF-THE-ART NAV BAR (Professional Light Beige & Navy Blue/Orange Accents) */}
-      <header className="sticky top-0 z-40 bg-[#FAF7EE]/90 backdrop-blur-md border-b border-[#043259]/10 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-sm relative z-10 select-none">
+      {/* 1. STATE-OF-THE-ART NAV BAR PANEL */}
+      <header className={`sticky top-0 z-40 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-sm relative z-10 select-none transition-all duration-500 backdrop-blur-md ${
+        isMonsoonMode 
+          ? 'bg-[#050e1c]/90 border-b border-sky-950/40 text-slate-100 shadow-[0_10px_30px_rgba(3,10,22,0.5)]' 
+          : 'bg-[#FAF7EE]/90 border-b border-[#043259]/10 text-slate-800'
+      }`}>
         
         {/* Left Side Logo */}
         <div 
@@ -356,10 +402,12 @@ Please register our store and send early wholesale partner sheets before the gra
           className="flex items-center gap-3 cursor-pointer select-none group"
         >
           <div className="shrink-0 overflow-hidden group-hover:scale-105 transition-all">
-            <PrimeLogo size={38} showText={false} houseColor="#043259" maskColor="#FAF7EE" />
+            <PrimeLogo size={38} showText={false} houseColor={isMonsoonMode ? "#38BDF8" : "#043259"} maskColor={isMonsoonMode ? "#061329" : "#FAF7EE"} />
           </div>
           <div className="flex flex-col text-left">
-            <span className="font-sans text-sm font-extrabold tracking-[0.24em] text-[#043259] leading-none uppercase">
+            <span className={`font-sans text-sm font-extrabold tracking-[0.24em] leading-none uppercase transition-colors ${
+              isMonsoonMode ? "text-sky-300" : "text-[#043259]"
+            }`}>
               PRIME TRADERS
             </span>
             <span className="font-mono text-[8px] text-[#e35a11] font-bold tracking-widest leading-loose uppercase flex items-center gap-1">
@@ -369,12 +417,16 @@ Please register our store and send early wholesale partner sheets before the gra
         </div>
 
         {/* Center Navigation Options (Desktop) */}
-        <nav className="hidden md:flex items-center gap-6 text-[11px] font-bold tracking-widest text-[#043259]/75 uppercase">
+        <nav className={`hidden md:flex items-center gap-6 text-[11px] font-bold tracking-widest uppercase transition-colors duration-200 ${
+          isMonsoonMode ? 'text-sky-200/85' : 'text-[#043259]/75'
+        }`}>
           <button
             id="nav-landing"
             onClick={() => setActiveTab('landing')}
-            className={`transition-colors duration-200 cursor-pointer ${
-              activeTab === 'landing' ? 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1' : 'hover:text-[#043259]'
+            className={`transition-all duration-200 cursor-pointer ${
+              activeTab === 'landing' 
+                ? (isMonsoonMode ? 'text-white border-b-2 border-sky-450 pb-1 font-extrabold' : 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1') 
+                : (isMonsoonMode ? 'hover:text-white text-sky-200/60' : 'hover:text-[#043259]')
             }`}
           >
             Welcome Hub
@@ -382,8 +434,10 @@ Please register our store and send early wholesale partner sheets before the gra
           <button
             id="nav-catalog"
             onClick={() => setActiveTab('catalog')}
-            className={`transition-colors duration-200 cursor-pointer ${
-              activeTab === 'catalog' ? 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1' : 'hover:text-[#043259]'
+            className={`transition-all duration-200 cursor-pointer ${
+              activeTab === 'catalog' 
+                ? (isMonsoonMode ? 'text-white border-b-2 border-sky-450 pb-1 font-extrabold' : 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1') 
+                : (isMonsoonMode ? 'hover:text-white text-sky-200/60' : 'hover:text-[#043259]')
             }`}
           >
             Products Catalogue
@@ -391,8 +445,10 @@ Please register our store and send early wholesale partner sheets before the gra
           <button
             id="nav-notices"
             onClick={() => setActiveTab('notices')}
-            className={`transition-colors duration-200 cursor-pointer ${
-              activeTab === 'notices' ? 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1' : 'hover:text-[#043259]'
+            className={`transition-all duration-200 cursor-pointer ${
+              activeTab === 'notices' 
+                ? (isMonsoonMode ? 'text-white border-b-2 border-sky-450 pb-1 font-extrabold' : 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1') 
+                : (isMonsoonMode ? 'hover:text-white text-sky-200/60' : 'hover:text-[#043259]')
             }`}
           >
             Offers & Notices
@@ -400,8 +456,10 @@ Please register our store and send early wholesale partner sheets before the gra
           <button
             id="nav-forge"
             onClick={() => setActiveTab('forge')}
-            className={`transition-colors duration-200 cursor-pointer ${
-              activeTab === 'forge' ? 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1' : 'hover:text-[#043259]'
+            className={`transition-all duration-200 cursor-pointer ${
+              activeTab === 'forge' 
+                ? (isMonsoonMode ? 'text-white border-b-2 border-sky-450 pb-1 font-extrabold' : 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1') 
+                : (isMonsoonMode ? 'hover:text-white text-sky-200/60' : 'hover:text-[#043259]')
             }`}
           >
             AI Freight Strategist
@@ -409,8 +467,10 @@ Please register our store and send early wholesale partner sheets before the gra
           <button
             id="nav-atelier"
             onClick={() => setActiveTab('atelier')}
-            className={`transition-colors duration-200 cursor-pointer ${
-              activeTab === 'atelier' ? 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1' : 'hover:text-[#043259]'
+            className={`transition-all duration-200 cursor-pointer ${
+              activeTab === 'atelier' 
+                ? (isMonsoonMode ? 'text-white border-b-2 border-sky-450 pb-1 font-extrabold' : 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1') 
+                : (isMonsoonMode ? 'hover:text-white text-sky-200/60' : 'hover:text-[#043259]')
             }`}
           >
             Atelier Specs & Logo Station
@@ -419,6 +479,22 @@ Please register our store and send early wholesale partner sheets before the gra
  
         {/* Right Actions Block */}
         <div className="flex items-center gap-3">
+          {/* Quick theme trigger in header */}
+          <button
+            onClick={() => setIsMonsoonMode(!isMonsoonMode)}
+            className={`px-3 py-1.5 rounded-xl transition-all duration-305 flex items-center justify-center gap-1.5 cursor-pointer max-md:hidden border text-xs font-bold ${
+              isMonsoonMode 
+                ? 'bg-sky-500/10 text-sky-400 border-sky-400/20 hover:bg-sky-500/20' 
+                : 'bg-orange-500/10 text-[#e35a11] border-orange-500/20 hover:bg-orange-500/20'
+            }`}
+            title="Switch website atmosphere"
+          >
+            <span>{isMonsoonMode ? '🌧️' : '☀️'}</span>
+            <span className="font-mono text-[8.5px] uppercase tracking-wider">
+              {isMonsoonMode ? 'Monsoon' : 'Standard'}
+            </span>
+          </button>
+
           {/* Active shopping cart list queue indicator */}
           <button
             id="history-drawer-trigger"
@@ -435,7 +511,7 @@ Please register our store and send early wholesale partner sheets before the gra
           {/* Mobile menu trigger */}
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
-            className="md:hidden text-[#043259] hover:text-[#e35a11] p-1"
+            className={`md:hidden p-1 ${isMonsoonMode ? 'text-sky-300 hover:text-white' : 'text-[#043259] hover:text-[#e35a11]'}`}
           >
             {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -444,34 +520,38 @@ Please register our store and send early wholesale partner sheets before the gra
  
       {/* Mobile context dropdown nav */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#FAF7EE] border-b border-[#043259]/10 px-4 py-4 flex flex-col gap-3 text-left text-xs uppercase font-extrabold tracking-wider border-t border-white/5 animate-fade-in z-50 relative">
+        <div className={`md:hidden border-b px-4 py-4 flex flex-col gap-3 text-left text-xs uppercase font-extrabold tracking-wider z-50 relative animate-fade-in ${
+          isMonsoonMode 
+            ? 'bg-[#040c17] border-blue-950/20 text-slate-100' 
+            : 'bg-[#FAF7EE] border-[#043259]/10 text-slate-700'
+        }`}>
           <button
             onClick={() => { setActiveTab('landing'); setMobileMenuOpen(false); }}
-            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'landing' ? 'bg-[#e35a11] text-white' : 'text-slate-700'}`}
+            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'landing' ? 'bg-[#e35a11] text-white' : (isMonsoonMode ? 'text-sky-200' : 'text-slate-700')}`}
           >
             Welcome Hub
           </button>
           <button
             onClick={() => { setActiveTab('catalog'); setMobileMenuOpen(false); }}
-            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'catalog' ? 'bg-[#e35a11] text-white' : 'text-slate-700'}`}
+            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'catalog' ? 'bg-[#e35a11] text-white' : (isMonsoonMode ? 'text-sky-200' : 'text-slate-700')}`}
           >
             Products Catalogue
           </button>
           <button
             onClick={() => { setActiveTab('notices'); setMobileMenuOpen(false); }}
-            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'notices' ? 'bg-[#e35a11] text-white' : 'text-slate-700'}`}
+            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'notices' ? 'bg-[#e35a11] text-white' : (isMonsoonMode ? 'text-sky-200' : 'text-slate-700')}`}
           >
             Offers & Notices
           </button>
           <button
             onClick={() => { setActiveTab('forge'); setMobileMenuOpen(false); }}
-            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'forge' ? 'bg-[#e35a11] text-white' : 'text-slate-700'}`}
+            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'forge' ? 'bg-[#e35a11] text-white' : (isMonsoonMode ? 'text-sky-200' : 'text-slate-700')}`}
           >
             AI Freight Strategist
           </button>
           <button
             onClick={() => { setActiveTab('atelier'); setMobileMenuOpen(false); }}
-            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'atelier' ? 'bg-[#e35a11] text-white' : 'text-slate-700'}`}
+            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'atelier' ? 'bg-[#e35a11] text-white' : (isMonsoonMode ? 'text-sky-200' : 'text-slate-700')}`}
           >
             Atelier Specs & Logo Station
           </button>
@@ -498,13 +578,20 @@ Please register our store and send early wholesale partner sheets before the gra
         {activeTab === 'landing' && (
           <div id="landing-splash-view" className="space-y-8 animate-fade-in text-left">
             
+            {/* Kerala Monsoon Interactive Sound Synth & Particle System */}
+            <MonsoonRainFX isMonsoonMode={isMonsoonMode} onToggleMonsoonMode={setIsMonsoonMode} />
+            
             {/* HERO HERO SECTION BENTO SPLIT */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch pt-2">
               
               {/* BENTO CARD 1: Digital Representation of User's Warehouse Logo Image */}
               <div 
                 id="hero-warehouse-showroom-card" 
-                className="lg:col-span-4 bg-gradient-to-b from-[#FAF7EE] via-[#F6F1E3] to-[#F3EAD5] border border-[#d4af37]/20 rounded-3xl p-6 sm:p-7 flex flex-col items-center justify-between min-h-[380px] shadow-xl relative overflow-hidden group"
+                className={`lg:col-span-4 rounded-3xl p-6 sm:p-7 flex flex-col items-center justify-between min-h-[380px] shadow-xl relative overflow-hidden group transition-all duration-500 border ${
+                  isMonsoonMode 
+                    ? "bg-gradient-to-b from-[#0e1726] via-[#090f1a] to-[#040810] border-sky-950/20 text-slate-100 shadow-[0_15px_30px_rgba(2,5,10,0.4)]" 
+                    : "bg-gradient-to-b from-[#FAF7EE] via-[#F6F1E3] to-[#F3EAD5] border-[#d4af37]/20 text-slate-800"
+                }`}
               >
                 {/* Visual perspective wireframe background approximating the receded supermarket aisles and warehouse rack lines */}
                 <div className="absolute inset-0 opacity-80 pointer-events-none mix-blend-multiply select-none">
@@ -545,10 +632,21 @@ Please register our store and send early wholesale partner sheets before the gra
 
                     <defs>
                       <radialGradient id="panelFloorGradient" cx="50%" cy="30%" r="62%">
-                        <stop offset="0%" stopColor="#FFFFFF" />
-                        <stop offset="30%" stopColor="#FAF7EE" />
-                        <stop offset="70%" stopColor="#F5EFE0" />
-                        <stop offset="100%" stopColor="#EADEC3" />
+                        {isMonsoonMode ? (
+                          <>
+                            <stop offset="0%" stopColor="#1E293B" />
+                            <stop offset="30%" stopColor="#0B1329" />
+                            <stop offset="70%" stopColor="#060913" />
+                            <stop offset="100%" stopColor="#000000" />
+                          </>
+                        ) : (
+                          <>
+                            <stop offset="0%" stopColor="#FFFFFF" />
+                            <stop offset="30%" stopColor="#FAF7EE" />
+                            <stop offset="70%" stopColor="#F5EFE0" />
+                            <stop offset="100%" stopColor="#EADEC3" />
+                          </>
+                        )}
                       </radialGradient>
                       <filter id="panelGlowBlur">
                         <feGaussianBlur stdDeviation="5" />
@@ -561,20 +659,32 @@ Please register our store and send early wholesale partner sheets before the gra
                 <div className="absolute inset-0 bg-radial-gradient from-amber-400/10 via-transparent to-transparent pointer-events-none" />
 
                 <div className="w-full flex justify-between items-center z-10">
-                  <span className="font-mono text-[8px] tracking-widest text-[#043259] font-extrabold bg-[#043259]/5 px-2 py-1 rounded-md uppercase border border-[#043259]/10">
+                  <span className={`text-[8px] tracking-widest font-extrabold px-2 py-1 rounded-md uppercase border ${
+                    isMonsoonMode 
+                      ? 'bg-sky-500/10 text-sky-300 border-sky-400/20' 
+                      : 'bg-[#043259]/5 text-[#043259] border-[#043259]/10'
+                  }`}>
                     Official Brand Identity
                   </span>
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                 </div>
 
                 {/* Center visual container matching the user-received brand picture exactly */}
-                <div className="my-auto py-6 relative z-10 flex flex-col items-center justify-center p-6 sm:p-7 rounded-2xl bg-white/50 backdrop-blur-md border border-white/60 shadow-[0_15px_35px_rgba(4,50,89,0.06)] scale-100 group-hover:scale-[1.03] transition-all duration-300">
-                  <PrimeLogo size={110} showText={true} houseColor="#043259" maskColor="#FAF7EE" />
+                <div className={`my-auto py-6 relative z-10 flex flex-col items-center justify-center p-6 sm:p-7 rounded-2xl border scale-100 group-hover:scale-[1.03] transition-all duration-300 ${
+                  isMonsoonMode 
+                    ? "bg-slate-950/80 border-slate-900/60 shadow-[0_15px_35px_rgba(3,10,22,0.6)]" 
+                    : "bg-white/50 backdrop-blur-md border-white/60 shadow-[0_15px_35px_rgba(4,50,89,0.06)]"
+                }`}>
+                  <PrimeLogo size={110} showText={true} houseColor={isMonsoonMode ? "#38BDF8" : "#043259"} maskColor={isMonsoonMode ? "#061325" : "#FAF7EE"} />
                 </div>
 
                 <div className="w-full text-center z-10">
-                  <span className="font-mono text-[8.5px] uppercase tracking-widest text-slate-600 font-extrabold inline-flex items-center gap-1.5 bg-white/70 backdrop-blur-xs py-1.5 px-3 rounded-full border border-slate-300/30">
-                    <Sparkles size={9} className="text-amber-500 shrink-0" /> TRIVANDRAM & KOLLAM SECTORS
+                  <span className={`font-mono text-[8.5px] uppercase tracking-widest font-extrabold inline-flex items-center gap-1.5 backdrop-blur-xs py-1.5 px-3 rounded-full border transition-all ${
+                    isMonsoonMode 
+                      ? "bg-slate-950/80 border-slate-800 text-sky-300" 
+                      : "bg-white/70 text-slate-600 border-slate-300/30"
+                  }`}>
+                    <Sparkles size={9} className="text-amber-500 shrink-0 animate-pulse" /> TRIVANDRAM & KOLLAM SECTORS
                   </span>
                 </div>
               </div>
