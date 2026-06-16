@@ -9,7 +9,10 @@ import {
   Info,
   Clock,
   Compass,
-  Sparkles
+  Sparkles,
+  Zap,
+  Flame,
+  Radio
 } from 'lucide-react';
 
 interface MonsoonRainFXProps {
@@ -22,6 +25,12 @@ export function MonsoonRainFX({ isMonsoonMode, onToggleMonsoonMode }: MonsoonRai
   const [isPlayingSound, setIsPlayingSound] = useState(false);
   const [volume, setVolume] = useState(0.4);
   const [lightningFlash, setLightningFlash] = useState(false);
+  const [isRumbling, setIsRumbling] = useState(false);
+  
+  // Thunder settings: 'frequent' (every 10-20s), 'ambient' (every 30-50s), 'off' (manual only)
+  const [thunderFrequency, setThunderFrequency] = useState<'frequent' | 'ambient' | 'off'>('ambient');
+  const [lastStrikeTime, setLastStrikeTime] = useState<string>('No recent strikes');
+  const [strikeCount, setStrikeCount] = useState<number>(0);
 
   // Web Audio Nodes references
   const audioCtxRef = useRef<AudioContext | null>(null);
@@ -29,7 +38,7 @@ export function MonsoonRainFX({ isMonsoonMode, onToggleMonsoonMode }: MonsoonRai
   const windGainNodeRef = useRef<GainNode | null>(null);
   const audioStartedRef = useRef(false);
 
-  // Synthesize rain and wind using client-side mathematical white noise buffers
+  // Procedural synthesised rain and wind using client-side mathematical white noise buffers
   const startRainSynth = () => {
     try {
       if (!audioCtxRef.current) {
@@ -143,6 +152,127 @@ export function MonsoonRainFX({ isMonsoonMode, onToggleMonsoonMode }: MonsoonRai
     }
   };
 
+  // High-Fidelity synthesized multi-echo rolling thunder storm cracks
+  const synthesizeThunderRumble = (targetVolume = volume) => {
+    try {
+      if (!audioCtxRef.current) {
+        audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      }
+      const ctx = audioCtxRef.current;
+      if (ctx.state === 'suspended') {
+        ctx.resume();
+      }
+
+      const now = ctx.currentTime;
+
+      // Part 1: Electrostatic discharge crack (The high voltage snap)
+      // Generates short sharp fizzing burst
+      const snapLen = ctx.sampleRate * 0.4;
+      const snapBuffer = ctx.createBuffer(1, snapLen, ctx.sampleRate);
+      const snapOutput = snapBuffer.getChannelData(0);
+      for (let i = 0; i < snapLen; i++) {
+        const white = Math.random() * 2 - 1;
+        // high exponential decay rate
+        snapOutput[i] = white * Math.exp(-i / (ctx.sampleRate * 0.05));
+      }
+      
+      const snapSource = ctx.createBufferSource();
+      snapSource.buffer = snapBuffer;
+
+      const snapFilter = ctx.createBiquadFilter();
+      snapFilter.type = 'bandpass';
+      snapFilter.frequency.setValueAtTime(650, now);
+      snapFilter.Q.setValueAtTime(3.5, now);
+
+      const snapGain = ctx.createGain();
+      // Snap is louder if lightning hits close
+      snapGain.gain.setValueAtTime(targetVolume * 0.5, now);
+      snapGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+      snapSource.connect(snapFilter);
+      snapFilter.connect(snapGain);
+      snapGain.connect(ctx.destination);
+      snapSource.start(now);
+
+      // Part 2: Acoustic Resonant Rolling Low-End Waves (The physical rumble)
+      const thunderWaves = [38, 48, 56, 75];
+      thunderWaves.forEach((freq, index) => {
+        const osc = ctx.createOscillator();
+        const oscGain = ctx.createGain();
+
+        // Alternate waveforms to model compound atmospheric resonance
+        osc.type = index % 2 === 0 ? 'triangle' : 'sawtooth';
+        osc.frequency.setValueAtTime(freq, now);
+        // Slacking frequency represents waves expansion across hot humid air
+        osc.frequency.linearRampToValueAtTime(freq * 0.75, now + 4.5);
+
+        const lpFilter = ctx.createBiquadFilter();
+        lpFilter.type = 'lowpass';
+        // lowpass cutoff keeps it deep, heavy, and non-harsh
+        lpFilter.frequency.setValueAtTime(110 - index * 15, now);
+
+        // Simulated propagation delay: distant waves arrive slightly later
+        const delayMs = index * 220;
+        const rumbleStart = now + (delayMs / 1000);
+
+        oscGain.gain.setValueAtTime(0.0001, now);
+        oscGain.gain.linearRampToValueAtTime(targetVolume * (0.85 - index * 0.18), rumbleStart + 0.15);
+
+        // Modulate with randomized volume echoes representing mountains/warehouse reflection peaks
+        const duration = 4.0 + Math.random() * 2.5;
+        for (let timeOffset = 0.8; timeOffset < duration; timeOffset += 0.8) {
+          const echoPower = targetVolume * (0.45 - index * 0.1) * (0.3 + Math.random() * 0.7);
+          oscGain.gain.linearRampToValueAtTime(echoPower, rumbleStart + timeOffset);
+        }
+        
+        oscGain.gain.exponentialRampToValueAtTime(0.0001, rumbleStart + duration);
+
+        osc.connect(lpFilter);
+        lpFilter.connect(oscGain);
+        oscGain.connect(ctx.destination);
+
+        osc.start(rumbleStart);
+        osc.stop(rumbleStart + duration + 0.5);
+      });
+
+    } catch (e) {
+      console.warn("High fidelity thunder audio nodes failed initialization", e);
+    }
+  };
+
+  // Immediate visual lightning & thunder strike trigger
+  const triggerThunderStrike = () => {
+    if (!isMonsoonMode) {
+      onToggleMonsoonMode(true);
+    }
+
+    const timeString = new Date().toLocaleTimeString();
+    setLastStrikeTime(timeString);
+    setStrikeCount(prev => prev + 1);
+
+    // 1. Visual physical screen rumble shockwave
+    setIsRumbling(true);
+    setTimeout(() => setIsRumbling(false), 950);
+
+    // 2. High-intensity double visual pulse lightning screen-flash
+    setLightningFlash(true);
+    
+    // Play synthesis automatically to give beautiful thunder sounds
+    synthesizeThunderRumble(volume);
+
+    setTimeout(() => {
+      setLightningFlash(false);
+      
+      // Secondary brief reflection flash in the sky
+      setTimeout(() => {
+        setLightningFlash(true);
+        setTimeout(() => {
+          setLightningFlash(false);
+        }, 90);
+      }, 140);
+    }, 110);
+  };
+
   // Adjust volume dynamically
   useEffect(() => {
     if (rainGainNodeRef.current && audioCtxRef.current) {
@@ -163,12 +293,46 @@ export function MonsoonRainFX({ isMonsoonMode, onToggleMonsoonMode }: MonsoonRai
       setIsPlayingSound(false);
     } else {
       setIsPlayingSound(true);
-      // Wait for user gesture release then start
       setTimeout(() => {
         startRainSynth();
       }, 50);
     }
   };
+
+  // Unlocks and pre-resumes the Web Audio Context during direct human interactions (clicks/touches)
+  // This bypasses browser auto-play security sandboxing, ensuring periodic background thunder sounds can start playing
+  useEffect(() => {
+    const unlockAudio = () => {
+      try {
+        if (!audioCtxRef.current) {
+          audioCtxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+        }
+        const ctx = audioCtxRef.current;
+        if (ctx && ctx.state === 'suspended') {
+          ctx.resume().catch(() => {});
+        }
+      } catch (e) {
+        console.warn("Could not pre-unlock audio context", e);
+      }
+    };
+
+    window.addEventListener('click', unlockAudio);
+    window.addEventListener('touchstart', unlockAudio);
+    return () => {
+      window.removeEventListener('click', unlockAudio);
+      window.removeEventListener('touchstart', unlockAudio);
+    };
+  }, []);
+
+  // Trigger a spectacular structural intro/welcoming thunder strike soon after Monsoon mode is activated
+  useEffect(() => {
+    if (isMonsoonMode) {
+      const welcomeTimer = setTimeout(() => {
+        triggerThunderStrike();
+      }, 1200);
+      return () => clearTimeout(welcomeTimer);
+    }
+  }, [isMonsoonMode]);
 
   // Turn off sound if general monsoon mode is unchecked
   useEffect(() => {
@@ -185,74 +349,40 @@ export function MonsoonRainFX({ isMonsoonMode, onToggleMonsoonMode }: MonsoonRai
     };
   }, []);
 
-  // Periodic distant thunder lightning generator simulation
+  // Periodic distant storm generator simulation configured with customizable frequency
   useEffect(() => {
-    if (!isMonsoonMode) return;
+    if (!isMonsoonMode || thunderFrequency === 'off') return;
 
-    const triggerLighningCycle = () => {
-      const delay = 15000 + Math.random() * 25000; // between 15s and 40s
+    const runStrikeLoop = () => {
+      // frequent = every 10-22 seconds, ambient = thirty to sixty seconds
+      const baseDelay = thunderFrequency === 'frequent' ? 10000 : 30000;
+      const jitter = thunderFrequency === 'frequent' ? 12000 : 30000;
+      const delay = baseDelay + Math.random() * jitter;
+
       const timer = setTimeout(() => {
-        // Double pulse flash standard in cloud-to-ground strikes
-        setLightningFlash(true);
-        
-        // Low rumble audio simulation if rain sounds are on
-        if (isPlayingSound && audioCtxRef.current) {
-          const ctx = audioCtxRef.current;
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(45, ctx.currentTime);
-          
-          // lowpass filter for deep heavy rumble
-          const filter = ctx.createBiquadFilter();
-          filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(60, ctx.currentTime);
-
-          gain.gain.setValueAtTime(0.01, ctx.currentTime);
-          gain.gain.linearRampToValueAtTime(volume * 0.45, ctx.currentTime + 0.2);
-          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 4.5);
-
-          osc.connect(filter);
-          filter.connect(gain);
-          gain.connect(ctx.destination);
-          
-          osc.start();
-          osc.stop(ctx.currentTime + 5);
-        }
-
-        setTimeout(() => {
-          setLightningFlash(false);
-          // second minor flash pulse
-          setTimeout(() => {
-            setLightningFlash(true);
-            setTimeout(() => {
-              setLightningFlash(false);
-            }, 80);
-          }, 150);
-        }, 120);
-
-        triggerLighningCycle();
+        triggerThunderStrike();
+        runStrikeLoop();
       }, delay);
 
       return timer;
     };
 
-    const timerObj = triggerLighningCycle();
-    return () => clearTimeout(timerObj);
-  }, [isMonsoonMode, isPlayingSound, volume]);
+    const activeTimer = runStrikeLoop();
+    return () => clearTimeout(activeTimer);
+  }, [isMonsoonMode, thunderFrequency]);
 
   // Falling rain droplets positions map generator to bypass HMR re-triggering flicker
-  const raindrops = Array.from({ length: 60 }, (_, i) => ({
+  const raindrops = Array.from({ length: 65 }, (_, i) => ({
     id: i,
-    left: `${(i * 1.67 + Math.random() * 1.5) % 100}%`,
-    delay: `${Math.random() * 3.5}s`,
-    duration: `${1.2 + Math.random() * 1.0}s`,
-    opacity: 0.15 + Math.random() * 0.4,
-    height: `${20 + Math.random() * 25}px`
+    left: `${(i * 1.54 + Math.random() * 1.8) % 100}%`,
+    delay: `${Math.random() * 3.2}s`,
+    duration: `${1.1 + Math.random() * 0.9}s`,
+    opacity: 0.15 + Math.random() * 0.45,
+    height: `${22 + Math.random() * 28}px`
   }));
 
   return (
-    <div id="monsoon-rain-controller-hub" className="relative z-10 w-full">
+    <div id="monsoon-rain-controller-hub" className={`relative z-10 w-full transition-transform duration-300 ${isRumbling ? 'animate-rumble' : ''}`}>
       {/* 
         A. FULL PORTRAIT BACKGROUND OVERLAY VISUAL RAINDROPS 
         These are absolutely positioned with viewport coordinates, layered beautifully background-wise
@@ -264,11 +394,11 @@ export function MonsoonRainFX({ isMonsoonMode, onToggleMonsoonMode }: MonsoonRai
             {raindrops.map((drop) => (
               <div
                 key={drop.id}
-                className="absolute bg-gradient-to-b from-sky-400/30 to-sky-100/10 rounded-full"
+                className="absolute bg-gradient-to-b from-sky-450/45 to-sky-100/10 rounded-full"
                 style={{
                   left: drop.left,
                   top: '-50px',
-                  width: '1px',
+                  width: '1.2px',
                   height: drop.height,
                   opacity: drop.opacity,
                   animationName: 'tropicalRainFall',
@@ -282,7 +412,7 @@ export function MonsoonRainFX({ isMonsoonMode, onToggleMonsoonMode }: MonsoonRai
           </div>
 
           {/* Drifting wet cloud mist patches */}
-          <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-slate-900/15 via-transparent to-transparent opacity-80 pointer-events-none mix-blend-overlay" />
+          <div className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-slate-900/20 via-transparent to-transparent opacity-90 pointer-events-none mix-blend-overlay animate-pulse" />
         </div>
       )}
 
@@ -291,7 +421,7 @@ export function MonsoonRainFX({ isMonsoonMode, onToggleMonsoonMode }: MonsoonRai
         Briefly flashes a high opacity light overlay across active viewport when thunder triggers 
       */}
       {lightningFlash && (
-        <div className="fixed inset-0 bg-sky-100/25 pointer-events-none z-50 mix-blend-screen transition-opacity duration-75" />
+        <div className="fixed inset-0 bg-sky-200/35 pointer-events-none z-50 mix-blend-screen transition-opacity duration-75" />
       )}
 
       {/* 
@@ -301,45 +431,45 @@ export function MonsoonRainFX({ isMonsoonMode, onToggleMonsoonMode }: MonsoonRai
       */}
       <div className={`rounded-3xl p-6 text-left relative overflow-hidden transition-all duration-500 border ${
         isMonsoonMode 
-          ? 'bg-[#091426]/90 text-sky-100 border-sky-400/20 shadow-2xl shadow-blue-950/40' 
+          ? 'bg-[#06101f]/95 text-sky-100 border-sky-400/20 shadow-2xl shadow-blue-950/50' 
           : 'bg-white text-slate-800 border-slate-200/80 shadow-md'
       }`}>
         {/* Background decorative ocean wave pulse */}
-        <div className="absolute bottom-0 right-0 w-36 h-36 bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-44 h-44 bg-blue-500/5 rounded-full blur-3xl pointer-events-none animate-pulse" />
 
         {/* Header telemetry tag */}
-        <div className="flex justify-between items-center gap-2 mb-4">
+        <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
           <span className={`font-mono text-[8px] font-extrabold tracking-widest px-2 py-1 rounded uppercase ${
             isMonsoonMode 
-              ? 'bg-sky-500/10 text-sky-400 border border-sky-500/10' 
+              ? 'bg-sky-500/10 text-sky-300 border border-sky-500/20' 
               : 'bg-slate-100 text-slate-600 border border-slate-200'
           }`}>
-            🌿 Thiruvananthapuram Weather telemetry
+            ⛈️ Western Ghats Thunder Simulator
           </span>
-          <span className="flex items-center gap-1 font-mono text-[9px] font-bold text-orange-500">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-            LIVE STATION
+          <span className="flex items-center gap-1.5 font-mono text-[9px] font-bold text-orange-500 bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/15">
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-ping" />
+            THUNDER STORM TELEMETRY
           </span>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-6 justify-between items-stretch">
+        <div className="flex flex-col lg:flex-row gap-6 justify-between items-stretch">
           
           {/* Main Toggle Action Panel */}
-          <div className="flex-grow space-y-3 flex flex-col justify-between">
+          <div className="flex-grow space-y-4 flex flex-col justify-between">
             <div className="space-y-1.5">
-              <h3 className="font-serif text-lg font-bold flex items-center gap-2">
-                <CloudRain className={`text-sky-500 ${isMonsoonMode ? 'animate-bounce' : ''}`} size={20} />
-                Kerala Monsoon Aesthetic
+              <h3 className="font-serif text-lg sm:text-xl font-bold flex items-center gap-2">
+                <CloudLightning className={`text-sky-400 ${isMonsoonMode ? 'animate-pulse' : ''}`} size={22} />
+                Kerala Monsoon & Thunder Theme
               </h3>
               <p className="text-xs text-slate-400 leading-normal font-sans">
                 {isMonsoonMode 
-                  ? 'Active: Slanted water cascades, storm background, and custom monsoon specials in notices.' 
-                  : 'Inactive: High-luminance warehouse interior colors. Toggle on to engage wet weather features.'}
+                  ? 'Active: Slanted storm cascades, interactive thunder strikes, physical screen rumble, and beautiful synthesised sound effects.' 
+                  : 'Inactive: Safe warm warehouse lighting theme. Toggle below to activate full weather experience.'}
               </p>
             </div>
 
-            {/* Tactical Control Switches */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
+            {/* Thunder Parameter Controls & manual trigger */}
+            <div className="flex flex-wrap items-center gap-2.5 pt-1">
               {/* Main Mode Toggle button */}
               <button
                 type="button"
@@ -350,7 +480,7 @@ export function MonsoonRainFX({ isMonsoonMode, onToggleMonsoonMode }: MonsoonRai
                     : 'bg-slate-200/80 hover:bg-slate-300/80 text-slate-700 border-slate-300'
                 }`}
               >
-                <CloudLightning size={13} className={isMonsoonMode ? 'animate-pulse' : ''} />
+                <CloudRain size={13} className={isMonsoonMode ? 'animate-bounce' : ''} />
                 {isMonsoonMode ? 'Monsoon Active' : 'Enable Monsoon'}
               </button>
 
@@ -364,65 +494,99 @@ export function MonsoonRainFX({ isMonsoonMode, onToggleMonsoonMode }: MonsoonRai
                       ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' 
                       : 'bg-black/35 text-sky-300 hover:text-white border-sky-500/10'
                   }`}
-                  title="Toggle synthesised wind & water sounds completely client-side"
+                  title="Toggle synthesised structural wind, water, and rumble waves"
                 >
                   {isPlayingSound ? <Volume2 size={13} className="text-emerald-400" /> : <VolumeX size={13} />}
-                  {isPlayingSound ? 'Synthesiser Playing' : 'Synthesize Rain'}
+                  {isPlayingSound ? 'Synthesiser On' : 'Synthesize Audio'}
                 </button>
               )}
             </div>
 
-            {/* Synthesiser Volume Slider */}
-            {isPlayingSound && (
-              <div className="space-y-1.5 pt-2 max-w-[200px] text-left">
-                <div className="flex justify-between items-center text-[10px] text-sky-300/80 font-mono">
-                  <span>AMBIENCE VOLUME</span>
-                  <span>{Math.round(volume * 100)}%</span>
+            {/* Synthesiser Volume Slider and Thunder Rate settings */}
+            {isMonsoonMode && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1 max-w-lg border-t border-sky-950/30">
+                {/* 1. Frequency toggle */}
+                <div className="space-y-1">
+                  <span className="text-[10px] text-sky-400 font-mono block tracking-wider">AUTO THUNDER FREQUENCY</span>
+                  <div className="flex gap-1 bg-black/40 p-1 rounded-xl border border-sky-950/40">
+                    {(['frequent', 'ambient', 'off'] as const).map((rate) => (
+                      <button
+                        key={rate}
+                        type="button"
+                        onClick={() => setThunderFrequency(rate)}
+                        className={`flex-1 py-1 rounded-lg text-[9px] font-mono tracking-tight uppercase transition-all ${
+                          thunderFrequency === rate
+                            ? 'bg-sky-500/20 text-sky-300 border border-sky-400/20 font-bold'
+                            : 'text-slate-400 hover:text-sky-200'
+                        }`}
+                      >
+                        {rate}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <input
-                  type="range"
-                  min="0.0"
-                  max="1.0"
-                  step="0.05"
-                  value={volume}
-                  onChange={(e) => setVolume(parseFloat(e.target.value))}
-                  className="w-full accent-emerald-400 h-1 bg-slate-800 rounded-lg cursor-pointer"
-                />
+
+                {/* 2. Volume control */}
+                {isPlayingSound ? (
+                  <div className="space-y-1.5 flex flex-col justify-end">
+                    <div className="flex justify-between items-center text-[10px] text-sky-300/80 font-mono">
+                      <span>STORM VOLUME</span>
+                      <span>{Math.round(volume * 100)}%</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0.0"
+                      max="1.0"
+                      step="0.05"
+                      value={volume}
+                      onChange={(e) => setVolume(parseFloat(e.target.value))}
+                      className="w-full h-1 bg-slate-800 rounded-lg cursor-pointer accent-sky-400"
+                    />
+                  </div>
+                ) : (
+                  <div className="text-[10px] text-slate-500 italic font-sans flex items-center justify-start gap-1">
+                    <Radio size={12} className="shrink-0" /> Turn sound synthesis on to hear rolling rumbles!
+                  </div>
+                )}
               </div>
             )}
           </div>
 
-          {/* Meteorological parameter stats box */}
-          <div className={`p-4 rounded-2xl flex flex-col justify-between gap-3 text-left shrink-0 min-w-[200px] transition-all ${
+          {/* Meteorological parameter stats box with Thunder telemetry */}
+          <div className={`p-4 rounded-2xl flex flex-col justify-between gap-3 text-left shrink-0 min-w-[210px] transition-all ${
             isMonsoonMode 
               ? 'bg-[#030a14] border border-sky-400/10 text-sky-200' 
               : 'bg-slate-50 border border-slate-200/80 text-slate-600'
           }`}>
-            <span className="font-mono text-[9px] font-bold text-sky-400 tracking-wider">
-              🌧️ CHALAI DISTRICT TELEMETRY
-            </span>
-            
-            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs font-mono">
-              <div className="space-y-0.5">
-                <span className="text-[8.5px] opacity-60 block">Outdoors Temp</span>
-                <span className={`font-bold ${isMonsoonMode ? 'text-sky-300' : 'text-slate-700'}`}>26.5° C</span>
-              </div>
-              <div className="space-y-0.5">
-                <span className="text-[8.5px] opacity-60 block">Air Humidity</span>
-                <span className="font-bold text-orange-500">98.5% RH</span>
-              </div>
-              <div className="space-y-0.5">
-                <span className="text-[8.5px] opacity-60 block">Ocean Rain Rate</span>
-                <span className={`font-bold ${isMonsoonMode ? 'text-sky-300' : 'text-slate-700'}`}>120mm/hr</span>
-              </div>
-              <div className="space-y-0.5">
-                <span className="text-[8.5px] opacity-60 block">Sea-Winds</span>
-                <span className="font-bold text-emerald-500">42 knots W</span>
+            <div>
+              <span className="font-mono text-[9px] font-bold text-sky-400 tracking-wider block mb-1">
+                ⚡ THUNDERSTORM STATISTICS
+              </span>
+              <div className="bg-sky-500/5 rounded-lg p-2 border border-sky-500/5 space-y-1 text-xs font-mono mb-2">
+                <div className="flex justify-between">
+                  <span className="opacity-60 text-[9.5px]">Storm Strikes:</span>
+                  <span className="font-bold text-sky-300">{strikeCount}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="opacity-60 text-[9.5px]">Last Strike:</span>
+                  <span className="font-bold text-amber-400 text-[10px]">{lastStrikeTime}</span>
+                </div>
               </div>
             </div>
 
-            <p className="text-[9.5px] leading-snug border-t border-sky-500/10 pt-2 italic opacity-90 max-w-[210px]">
-              *Transit advisory: Secure packaging cardboard seams utilizing our 50µm heavy carton adhesive.
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs font-mono border-t border-sky-950/30 pt-2.5">
+              <div className="space-y-0.5">
+                <span className="text-[8.5px] opacity-60 block">Temperature</span>
+                <span className={`font-bold ${isMonsoonMode ? 'text-sky-300' : 'text-slate-700'}`}>24.8° C</span>
+              </div>
+              <div className="space-y-0.5">
+                <span className="text-[8.5px] opacity-60 block">Barometer</span>
+                <span className="font-bold text-orange-500">994 hPa 📉</span>
+              </div>
+            </div>
+
+            <p className="text-[9.5px] leading-snug border-t border-sky-500/10 pt-2 italic opacity-90">
+              ⚡ Warning: Electrostatic activity detected. Secure container tarpaulins on outbound bulk freight.
             </p>
           </div>
 
@@ -438,6 +602,19 @@ export function MonsoonRainFX({ isMonsoonMode, onToggleMonsoonMode }: MonsoonRai
           100% {
             transform: translateY(110vh);
           }
+        }
+        @keyframes screenRumble {
+          0% { transform: translate(0, 0) rotate(0deg); }
+          15% { transform: translate(-3px, 1.5px) rotate(-0.5deg); }
+          30% { transform: translate(2px, -1.5px) rotate(0.5deg); }
+          45% { transform: translate(-1.5px, 2px) rotate(0deg); }
+          60% { transform: translate(2.5px, 1px) rotate(0.5deg); }
+          75% { transform: translate(-1px, -1px) rotate(-0.5deg); }
+          90% { transform: translate(1.5px, 1.5px) rotate(0deg); }
+          100% { transform: translate(0, 0) rotate(0deg); }
+        }
+        .animate-rumble {
+          animation: screenRumble 0.85s cubic-bezier(.36,.07,.19,.97) both;
         }
       `}</style>
     </div>
