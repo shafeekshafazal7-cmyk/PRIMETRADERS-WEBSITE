@@ -16,6 +16,7 @@ import { AtelierCanvas } from './components/AtelierCanvas';
 import { AIPotteryForge } from './components/AIPotteryForge';
 import { Catalog } from './components/Catalog';
 import { PrimeLogo } from './components/PrimeLogo';
+import { NoticesDashboard } from './components/NoticesDashboard';
 import { 
   Compass, 
   Sparkles, 
@@ -54,8 +55,8 @@ const DEFAULT_SHAPE: CeramicShape = {
 };
 
 export default function App() {
-  // Navigation: 'landing' (Bento Home) | 'catalog' (B2B Products) | 'forge' (AI Freight) | 'atelier' (Specs & Logo Canvas)
-  const [activeTab, setActiveTab] = useState<'landing' | 'catalog' | 'forge' | 'atelier'>('landing');
+  // Navigation: 'landing' (Bento Home) | 'catalog' (B2B Products) | 'forge' (AI Freight) | 'atelier' (Specs & Logo Canvas) | 'notices' (Offers and Posters dashboard)
+  const [activeTab, setActiveTab] = useState<'landing' | 'catalog' | 'forge' | 'atelier' | 'notices'>('landing');
 
   // Active Builder State (using existing names for perfect compilation safety)
   const [currentShape, setCurrentShape] = useState<CeramicShape>(DEFAULT_SHAPE);
@@ -388,6 +389,15 @@ Please register our store and send early wholesale partner sheets before the gra
             Products Catalogue
           </button>
           <button
+            id="nav-notices"
+            onClick={() => setActiveTab('notices')}
+            className={`transition-colors duration-200 cursor-pointer ${
+              activeTab === 'notices' ? 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1' : 'hover:text-[#043259]'
+            }`}
+          >
+            Offers & Notices
+          </button>
+          <button
             id="nav-forge"
             onClick={() => setActiveTab('forge')}
             className={`transition-colors duration-200 cursor-pointer ${
@@ -406,7 +416,7 @@ Please register our store and send early wholesale partner sheets before the gra
             Atelier Specs & Logo Station
           </button>
         </nav>
-
+ 
         {/* Right Actions Block */}
         <div className="flex items-center gap-3">
           {/* Active shopping cart list queue indicator */}
@@ -421,7 +431,7 @@ Please register our store and send early wholesale partner sheets before the gra
               QUOTE DRAFT ({cart.length})
             </span>
           </button>
-
+ 
           {/* Mobile menu trigger */}
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
@@ -431,7 +441,7 @@ Please register our store and send early wholesale partner sheets before the gra
           </button>
         </div>
       </header>
-
+ 
       {/* Mobile context dropdown nav */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#FAF7EE] border-b border-[#043259]/10 px-4 py-4 flex flex-col gap-3 text-left text-xs uppercase font-extrabold tracking-wider border-t border-white/5 animate-fade-in z-50 relative">
@@ -446,6 +456,12 @@ Please register our store and send early wholesale partner sheets before the gra
             className={`py-2 px-3 rounded-lg text-left ${activeTab === 'catalog' ? 'bg-[#e35a11] text-white' : 'text-slate-700'}`}
           >
             Products Catalogue
+          </button>
+          <button
+            onClick={() => { setActiveTab('notices'); setMobileMenuOpen(false); }}
+            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'notices' ? 'bg-[#e35a11] text-white' : 'text-slate-700'}`}
+          >
+            Offers & Notices
           </button>
           <button
             onClick={() => { setActiveTab('forge'); setMobileMenuOpen(false); }}
@@ -593,7 +609,7 @@ Please register our store and send early wholesale partner sheets before the gra
                   </p>
                 </div>
 
-                <div className="pt-6 flex flex-wrap gap-3.5 z-10">
+                <div className="pt-6 flex flex-wrap gap-2 sm:gap-3.5 z-10">
                   <button
                     onClick={() => setActiveTab('catalog')}
                     className="bg-orange-500 hover:bg-orange-600 text-white font-extrabold text-xs tracking-wider uppercase px-5 py-3.5 rounded-2xl flex items-center justify-center gap-2 transition-all duration-200 shadow-lg shadow-orange-500/10 cursor-pointer"
@@ -601,6 +617,13 @@ Please register our store and send early wholesale partner sheets before the gra
                     View Bulk Catalog <ArrowRight size={13} />
                   </button>
                   
+                  <button
+                    onClick={() => setActiveTab('notices')}
+                    className="bg-[#e35a11]/10 hover:bg-[#e35a11]/20 text-orange-400 border border-orange-500/30 font-extrabold text-xs tracking-wider uppercase px-5 py-3.5 rounded-2xl flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer"
+                  >
+                    <Percent size={13} className="shrink-0" /> Offers & notices
+                  </button>
+
                   <a
                     href="https://wa.me/919446051515?text=Hi%20Prime%20Traders!%20I%20want%20to%20enquire%20about%20your%20wholesale%20household%20and%20packing%20products%20price%20list.%20Thank%20you!"
                     target="_blank"
@@ -938,6 +961,19 @@ Please register our store and send early wholesale partner sheets before the gra
         {activeTab === 'catalog' && (
           <div id="catalog-library-view" className="animate-fade-in pt-2">
             <Catalog onLoadPiece={handleLoadStateOnWheel} onAddToCart={handleAddToCart} />
+          </div>
+        )}
+
+        {/* ======================================================== */}
+        {/* VIEW E: OFFERS & NOTICES BULLETINS */}
+        {/* ======================================================== */}
+        {activeTab === 'notices' && (
+          <div id="notices-offers-view" className="animate-fade-in pt-2 bg-transparent text-slate-800">
+            <NoticesDashboard 
+              onAddToCart={handleAddToCart} 
+              onOpenCart={() => setShowCartDrawer(true)} 
+              triggerFlash={triggerFlash} 
+            />
           </div>
         )}
 
