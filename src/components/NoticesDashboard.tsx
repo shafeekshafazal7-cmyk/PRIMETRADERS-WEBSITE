@@ -61,7 +61,7 @@ export function NoticesDashboard({ onAddToCart, onOpenCart, triggerFlash }: Noti
   const [customBadge, setCustomBadge] = useState('CHALAI EXCLUSIVE');
   const [customStyle, setCustomStyle] = useState<'amber-sunrise' | 'kerala-monsoon' | 'premium-neon' | 'kraft-eco'>('kerala-monsoon');
   const [customPromoCode, setCustomPromoCode] = useState('PRIME40');
-  const [customNotes, setCustomNotes] = useState('Free delivery inside Thiruvananthapuram and Kollam sector limits.');
+  const [customNotes, setCustomNotes] = useState('Free delivery inside Thiruvananthapuram local bazaar limits.');
   const [isPosterDrawerOpen, setIsPosterDrawerOpen] = useState(false);
 
   // Active Poster Modal for "Print / High-Res View"
@@ -99,7 +99,7 @@ export function NoticesDashboard({ onAddToCart, onOpenCart, triggerFlash }: Noti
       title: 'Free Chalai Market Local Delivery Limit',
       tagline: 'Zero transport charge inside Thiruvananthapuram Main Bazaar circumference.',
       badge: 'LOCAL SERVICE',
-      description: 'To support our shop neighbors during the pre-opening weeks, Prime Traders is offering completely free delivery for order totals above ₹5,000 if your supermarket or store is based inside the 5km Chalai loop.',
+      description: 'To support our shop neighbors during the pre-opening weeks, Prime Traders is offering completely free delivery for order volumes above 10+ bundles if your supermarket or store is based inside the 5km Chalai loop.',
       date: 'June 10, 2026',
       expiryDate: 'Always Active',
       isUrgent: false,
@@ -170,7 +170,7 @@ export function NoticesDashboard({ onAddToCart, onOpenCart, triggerFlash }: Noti
     };
 
     onAddToCart(discountedProduct, product.minOrderQty);
-    triggerFlash(`Applied Coupon ${notice.promoCode}! Added ${product.minOrderQty} bags of "${product.name}" at ₹${finalPrice} wholesale price!`);
+    triggerFlash(`Applied Coupon ${notice.promoCode}! Added ${product.minOrderQty} units of "${product.name}" with discount voucher locked to enquiry list!`);
   };
 
   // Add custom notice created by B2B user

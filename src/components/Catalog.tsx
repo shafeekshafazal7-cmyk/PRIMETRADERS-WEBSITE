@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useMemo } from 'react';
-import { WholesaleProduct, WHOLESALE_PRODUCTS, getWhatsAppUrl } from '../data';
+import { WholesaleProduct, WHOLESALE_PRODUCTS, getWhatsAppUrl, getProductResellerInfo } from '../data';
 import { CeramicShape, ClayBody, GlazeType } from '../types';
 import { 
   Sparkles, 
@@ -107,7 +107,7 @@ export const Catalog: React.FC<CatalogProps> = ({ onLoadPiece, onAddToCart }) =>
         {/* Info alerts */}
         <div className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-slate-900 border border-white/5 text-[11px] text-slate-300">
           <Truck size={14} className="text-orange-500 shrink-0" />
-          <span>Daily direct transport delivery strictly to Thiruvananthapuram and Kollam sectors only</span>
+          <span>Daily direct transport delivery strictly to Thiruvananthapuram sectors only</span>
         </div>
       </div>
 
@@ -405,44 +405,57 @@ export const Catalog: React.FC<CatalogProps> = ({ onLoadPiece, onAddToCart }) =>
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
+                  <div className="flex flex-col gap-3 pt-1">
                     
-                    {/* Bulk Price */}
-                    <div className="space-y-0.5 text-left">
-                      <span className="block text-[9px] text-slate-500 font-mono uppercase leading-none">Wholesale Rate</span>
-                      <div className="flex items-baseline gap-1 text-white">
-                        <span className="text-lg font-bold text-orange-500 font-serif">₹{p.wholesalePrice}</span>
-                        <span className="text-[10px] text-slate-500 font-mono">/ unit + 18% GST</span>
-                      </div>
-                    </div>
+                    {/* Reseller Program Block */}
+                    {(() => {
+                      const r = getProductResellerInfo(p);
+                      return (
+                        <div className="space-y-1.5 text-left bg-orange-500/5 hover:bg-orange-500/10 border border-orange-500/10 rounded-xl p-3 transition-all w-full select-text">
+                          <div className="flex items-center justify-between gap-2 border-b border-orange-500/10 pb-1.5">
+                            <span className="text-[9.5px] text-orange-400 font-mono uppercase font-bold tracking-wider">Estimated Margin:</span>
+                            <span className="text-xs font-extrabold text-green-400 font-mono tracking-tight">{r.estimatedRetailMargin}</span>
+                          </div>
+                          <div className="text-[10px] text-slate-300 font-sans leading-tight flex flex-col gap-1">
+                            <div><span className="text-slate-500 font-bold uppercase tracking-wider font-mono text-[8px]">Ideal Audience: </span> {r.targetRetailSegment}</div>
+                            <div><span className="text-slate-500 font-bold uppercase tracking-wider font-mono text-[8px]">Retail Pack: </span> {r.packagingOptions}</div>
+                          </div>
+                          <p className="text-[8px] text-amber-500/80 font-mono uppercase font-bold text-center mt-1 pt-1.5 border-t border-orange-500/10 select-none">
+                            🔒 Wholesaler price protected. Request B2B Quote.
+                          </p>
+                        </div>
+                      );
+                    })()}
 
                     {/* Actions bundle */}
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => handleCustomiseSpec(p)}
-                        id={`load-catalog-${p.id}`}
-                        title="Open this item as a baseline inside our custom specs modeler"
-                        className="bg-transparent hover:bg-slate-800 text-slate-400 hover:text-white transition-all font-bold text-xs p-2.5 rounded-xl border border-white/10 shadow-sm cursor-pointer"
-                      >
-                        <Sliders size={13} />
-                      </button>
-
-                      {onAddToCart && (
+                    <div className="flex items-center justify-between gap-1.5 w-full">
+                      <div className="flex items-center gap-1.5">
                         <button
-                          onClick={() => handleLocalAddToCart(p)}
-                          className="bg-orange-500/10 hover:bg-orange-500 hover:text-white text-orange-500 transition-all font-bold text-xs px-3.5 py-2.5 rounded-xl flex items-center gap-1.5 border border-orange-500/10 shadow-xs cursor-pointer"
+                          onClick={() => handleCustomiseSpec(p)}
+                          id={`load-catalog-${p.id}`}
+                          title="Open this item as a baseline inside our custom specs modeler"
+                          className="bg-transparent hover:bg-slate-800 text-slate-400 hover:text-white transition-all font-bold text-xs p-2.5 rounded-xl border border-white/10 shadow-sm cursor-pointer"
                         >
-                          <FileBox size={13} /> Draft Quote (MOQ)
+                          <Sliders size={13} />
                         </button>
-                      )}
+
+                        {onAddToCart && (
+                          <button
+                            onClick={() => handleLocalAddToCart(p)}
+                            className="bg-orange-500/10 hover:bg-orange-500 hover:text-white text-orange-500 transition-all font-bold text-[10.5px] px-3 py-2.5 rounded-xl flex items-center gap-1 border border-orange-500/10 shadow-xs cursor-pointer tracking-wider"
+                          >
+                            <FileBox size={13} /> Add to Inquiry
+                          </button>
+                        )}
+                      </div>
 
                       <a
-                        href={getWhatsAppUrl(p.name, 'wholesale price enquiry')}
+                        href={getWhatsAppUrl(p.name, 'wholesale reseller quote')}
                         target="_blank"
                         rel="noreferrer referrer"
-                        className="bg-emerald-600 hover:bg-emerald-500 text-white transition-all font-bold text-xs px-3.5 py-2.5 rounded-xl flex items-center gap-1.5 shadow-md shadow-emerald-700/10 cursor-pointer"
+                        className="bg-emerald-600 hover:bg-emerald-500 text-white transition-all font-bold text-[10.5px] px-3 py-2.5 rounded-xl flex items-center gap-1 shadow-md shadow-emerald-700/10 cursor-pointer tracking-wider shrink-0"
                       >
-                        <PhoneCall size={12} /> WhatsApp Inquiry
+                        <PhoneCall size={12} /> Get Quote
                       </a>
                     </div>
 

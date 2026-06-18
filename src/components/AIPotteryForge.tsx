@@ -30,11 +30,11 @@ export const AIPotteryForge: React.FC<AIPotteryForgeProps> = ({ onLoadShape }) =
   const [error, setError] = useState<string | null>(null);
   const [exported, setExported] = useState(false);
 
-  // Suggested Prompts for Prime Traders Thiruvananthapuram & Kollam Packing & Household wholesale solutions
+  // Suggested Prompts for Prime Traders Thiruvananthapuram Packing & Household wholesale solutions
   const inspirationPrompts = [
-    'Heavy-duty corrugated cargo boxes and thick aggressive tape for shipping bulky coconut kitchen tools in Thiruvananthapuram and Kollam damp humid weather.',
-    'Heavy-gauge degradable loop shopping carry bags to support up to 15kg without tear for big supermarkets in Kollam and Trivandrum.',
-    'Unbreakable food-grade storage canisters and commercial washing tubs for a luxury catering business near Ashtamudi Lake.',
+    'Heavy-duty corrugated cargo boxes and thick aggressive tape for shipping bulky coconut kitchen tools in Thiruvananthapuram damp humid weather.',
+    'Heavy-gauge degradable loop shopping carry bags to support up to 15kg without tear for big supermarkets in Trivandrum.',
+    'Unbreakable food-grade storage canisters and commercial washing tubs for a luxury catering business near Kovalam Beach.',
     'Waterproof Cast stretch rolls and dual-layer packing bubble wrap to secure heavy electronic components in coastal transit.'
   ];
 

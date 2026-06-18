@@ -17,7 +17,6 @@ import { AIPotteryForge } from './components/AIPotteryForge';
 import { Catalog } from './components/Catalog';
 import { PrimeLogo } from './components/PrimeLogo';
 import { NoticesDashboard } from './components/NoticesDashboard';
-import { MonsoonRainFX } from './components/MonsoonRainFX';
 import { 
   Compass, 
   Sparkles, 
@@ -58,9 +57,6 @@ const DEFAULT_SHAPE: CeramicShape = {
 export default function App() {
   // Navigation: 'landing' (Bento Home) | 'catalog' (B2B Products) | 'forge' (AI Freight) | 'atelier' (Specs & Logo Canvas) | 'notices' (Offers and Posters dashboard)
   const [activeTab, setActiveTab] = useState<'landing' | 'catalog' | 'forge' | 'atelier' | 'notices'>('landing');
-
-  // Immersive Seasonal Monsoon Theme State
-  const [isMonsoonMode, setIsMonsoonMode] = useState<boolean>(true);
 
   // Active Builder State (using existing names for perfect compilation safety)
   const [currentShape, setCurrentShape] = useState<CeramicShape>(DEFAULT_SHAPE);
@@ -250,9 +246,7 @@ Please register our store and send early wholesale partner sheets before the gra
   return (
     <div 
       id="prime-agency-app" 
-      className={`min-h-screen font-sans antialiased flex flex-col justify-between relative overflow-x-hidden select-none transition-all duration-700 ${
-        isMonsoonMode ? 'bg-[#030a16] text-sky-100' : 'bg-[#FAF7EE] text-slate-800'
-      }`}
+      className="min-h-screen font-sans antialiased flex flex-col justify-between relative overflow-x-hidden select-none transition-all duration-700 bg-[#FAF7EE] text-slate-800"
     >
       
       {/* 
@@ -260,45 +254,22 @@ Please register our store and send early wholesale partner sheets before the gra
         Renders receding high shelves on left & right margins, warm overhead spotlight flares, 
         and bright floor hallway reflections representing the official brand environment image perfectly.
       */}
-      <div className={`fixed inset-0 pointer-events-none overflow-hidden select-none z-0 transition-opacity duration-700 ${
-        isMonsoonMode ? 'opacity-25 mix-blend-screen' : 'mix-blend-multiply opacity-75'
-      }`}>
+      <div className="fixed inset-0 pointer-events-none overflow-hidden select-none z-0 mix-blend-multiply opacity-75">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
           <defs>
             {/* Soft warehouse ambient floor and wall values */}
             <radialGradient id="warehouseGlobalGlow" cx="50%" cy="35%" r="75%">
-              {isMonsoonMode ? (
-                <>
-                  <stop offset="0%" stopColor="#1E293B" />
-                  <stop offset="25%" stopColor="#0F172A" />
-                  <stop offset="65%" stopColor="#020617" />
-                  <stop offset="100%" stopColor="#000000" />
-                </>
-              ) : (
-                <>
-                  <stop offset="0%" stopColor="#FFFFFF" />
-                  <stop offset="25%" stopColor="#FAF7EE" />
-                  <stop offset="65%" stopColor="#FAF4E5" />
-                  <stop offset="100%" stopColor="#E6DCC4" />
-                </>
-              )}
+              <stop offset="0%" stopColor="#FFFFFF" />
+              <stop offset="25%" stopColor="#FAF7EE" />
+              <stop offset="65%" stopColor="#FAF4E5" />
+              <stop offset="100%" stopColor="#E6DCC4" />
             </radialGradient>
 
             {/* Radiant ceiling linear spot lights mimicking the supermarket overhead tubes */}
             <radialGradient id="ceilingLightMain" cx="50%" cy="5%" r="45%">
-              {isMonsoonMode ? (
-                <>
-                  <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.4" />
-                  <stop offset="50%" stopColor="#0F172A" stopOpacity="0.2" />
-                  <stop offset="100%" stopColor="#020617" stopOpacity="0" />
-                </>
-              ) : (
-                <>
-                  <stop offset="0%" stopColor="#FFFDF2" stopOpacity="0.95" />
-                  <stop offset="50%" stopColor="#FAF7EE" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="#E6DCC4" stopOpacity="0" />
-                </>
-              )}
+              <stop offset="0%" stopColor="#FFFDF2" stopOpacity="0.95" />
+              <stop offset="50%" stopColor="#FAF7EE" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="#E6DCC4" stopOpacity="0" />
             </radialGradient>
 
             {/* Focus blurs matching camera depth of field */}
@@ -311,19 +282,9 @@ Please register our store and send early wholesale partner sheets before the gra
 
             {/* Seamless floor high reflection glow */}
             <linearGradient id="floorReflection" x1="0" y1="0" x2="0" y2="1">
-              {isMonsoonMode ? (
-                <>
-                  <stop offset="0%" stopColor="#0B1528" stopOpacity="0.95" />
-                  <stop offset="45%" stopColor="#070E1B" stopOpacity="0.7" />
-                  <stop offset="100%" stopColor="#030710" stopOpacity="0" />
-                </>
-              ) : (
-                <>
-                  <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
-                  <stop offset="45%" stopColor="#FAF7EE" stopOpacity="0.7" />
-                  <stop offset="100%" stopColor="#FAF4E5" stopOpacity="0" />
-                </>
-              )}
+              <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
+              <stop offset="45%" stopColor="#FAF7EE" stopOpacity="0.7" />
+              <stop offset="100%" stopColor="#FAF4E5" stopOpacity="0" />
             </linearGradient>
           </defs>
 
@@ -390,11 +351,7 @@ Please register our store and send early wholesale partner sheets before the gra
       </div>
       
       {/* 1. STATE-OF-THE-ART NAV BAR PANEL */}
-      <header className={`sticky top-0 z-40 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-sm relative z-10 select-none transition-all duration-500 backdrop-blur-md ${
-        isMonsoonMode 
-          ? 'bg-[#050e1c]/90 border-b border-sky-950/40 text-slate-100 shadow-[0_10px_30px_rgba(3,10,22,0.5)]' 
-          : 'bg-[#FAF7EE]/90 border-b border-[#043259]/10 text-slate-800'
-      }`}>
+      <header className="sticky top-0 z-40 px-4 sm:px-8 py-3.5 flex items-center justify-between shadow-sm relative z-10 select-none transition-all duration-500 backdrop-blur-md bg-[#FAF7EE]/90 border-b border-[#043259]/10 text-slate-800">
         
         {/* Left Side Logo */}
         <div 
@@ -402,12 +359,10 @@ Please register our store and send early wholesale partner sheets before the gra
           className="flex items-center gap-3 cursor-pointer select-none group"
         >
           <div className="shrink-0 overflow-hidden group-hover:scale-105 transition-all">
-            <PrimeLogo size={38} showText={false} houseColor={isMonsoonMode ? "#38BDF8" : "#043259"} maskColor={isMonsoonMode ? "#061329" : "#FAF7EE"} />
+            <PrimeLogo size={38} showText={false} houseColor="#043259" maskColor="#FAF7EE" />
           </div>
           <div className="flex flex-col text-left">
-            <span className={`font-sans text-sm font-extrabold tracking-[0.24em] leading-none uppercase transition-colors ${
-              isMonsoonMode ? "text-sky-300" : "text-[#043259]"
-            }`}>
+            <span className="font-sans text-sm font-extrabold tracking-[0.24em] leading-none uppercase transition-colors text-[#043259]">
               PRIME TRADERS
             </span>
             <span className="font-mono text-[8px] text-[#e35a11] font-bold tracking-widest leading-loose uppercase flex items-center gap-1">
@@ -417,16 +372,14 @@ Please register our store and send early wholesale partner sheets before the gra
         </div>
 
         {/* Center Navigation Options (Desktop) */}
-        <nav className={`hidden md:flex items-center gap-6 text-[11px] font-bold tracking-widest uppercase transition-colors duration-200 ${
-          isMonsoonMode ? 'text-sky-200/85' : 'text-[#043259]/75'
-        }`}>
+        <nav className="hidden md:flex items-center gap-6 text-[11px] font-bold tracking-widest uppercase transition-colors duration-200 text-[#043259]/75">
           <button
             id="nav-landing"
             onClick={() => setActiveTab('landing')}
             className={`transition-all duration-200 cursor-pointer ${
               activeTab === 'landing' 
-                ? (isMonsoonMode ? 'text-white border-b-2 border-sky-450 pb-1 font-extrabold' : 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1') 
-                : (isMonsoonMode ? 'hover:text-white text-sky-200/60' : 'hover:text-[#043259]')
+                ? 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1' 
+                : 'hover:text-[#043259]'
             }`}
           >
             Welcome Hub
@@ -436,8 +389,8 @@ Please register our store and send early wholesale partner sheets before the gra
             onClick={() => setActiveTab('catalog')}
             className={`transition-all duration-200 cursor-pointer ${
               activeTab === 'catalog' 
-                ? (isMonsoonMode ? 'text-white border-b-2 border-sky-450 pb-1 font-extrabold' : 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1') 
-                : (isMonsoonMode ? 'hover:text-white text-sky-200/60' : 'hover:text-[#043259]')
+                ? 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1' 
+                : 'hover:text-[#043259]'
             }`}
           >
             Products Catalogue
@@ -447,8 +400,8 @@ Please register our store and send early wholesale partner sheets before the gra
             onClick={() => setActiveTab('notices')}
             className={`transition-all duration-200 cursor-pointer ${
               activeTab === 'notices' 
-                ? (isMonsoonMode ? 'text-white border-b-2 border-sky-450 pb-1 font-extrabold' : 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1') 
-                : (isMonsoonMode ? 'hover:text-white text-sky-200/60' : 'hover:text-[#043259]')
+                ? 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1' 
+                : 'hover:text-[#043259]'
             }`}
           >
             Offers & Notices
@@ -458,8 +411,8 @@ Please register our store and send early wholesale partner sheets before the gra
             onClick={() => setActiveTab('forge')}
             className={`transition-all duration-200 cursor-pointer ${
               activeTab === 'forge' 
-                ? (isMonsoonMode ? 'text-white border-b-2 border-sky-450 pb-1 font-extrabold' : 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1') 
-                : (isMonsoonMode ? 'hover:text-white text-sky-200/60' : 'hover:text-[#043259]')
+                ? 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1' 
+                : 'hover:text-[#043259]'
             }`}
           >
             AI Freight Strategist
@@ -469,8 +422,8 @@ Please register our store and send early wholesale partner sheets before the gra
             onClick={() => setActiveTab('atelier')}
             className={`transition-all duration-200 cursor-pointer ${
               activeTab === 'atelier' 
-                ? (isMonsoonMode ? 'text-white border-b-2 border-sky-450 pb-1 font-extrabold' : 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1') 
-                : (isMonsoonMode ? 'hover:text-white text-sky-200/60' : 'hover:text-[#043259]')
+                ? 'text-[#e35a11] border-b-2 border-[#e35a11] pb-1' 
+                : 'hover:text-[#043259]'
             }`}
           >
             Atelier Specs & Logo Station
@@ -479,22 +432,6 @@ Please register our store and send early wholesale partner sheets before the gra
  
         {/* Right Actions Block */}
         <div className="flex items-center gap-3">
-          {/* Quick theme trigger in header */}
-          <button
-            onClick={() => setIsMonsoonMode(!isMonsoonMode)}
-            className={`px-3 py-1.5 rounded-xl transition-all duration-305 flex items-center justify-center gap-1.5 cursor-pointer max-md:hidden border text-xs font-bold ${
-              isMonsoonMode 
-                ? 'bg-sky-500/10 text-sky-400 border-sky-400/20 hover:bg-sky-500/20' 
-                : 'bg-orange-500/10 text-[#e35a11] border-orange-500/20 hover:bg-orange-500/20'
-            }`}
-            title="Switch website atmosphere"
-          >
-            <span>{isMonsoonMode ? '🌧️' : '☀️'}</span>
-            <span className="font-mono text-[8.5px] uppercase tracking-wider">
-              {isMonsoonMode ? 'Monsoon' : 'Standard'}
-            </span>
-          </button>
-
           {/* Active shopping cart list queue indicator */}
           <button
             id="history-drawer-trigger"
@@ -511,7 +448,7 @@ Please register our store and send early wholesale partner sheets before the gra
           {/* Mobile menu trigger */}
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
-            className={`md:hidden p-1 ${isMonsoonMode ? 'text-sky-300 hover:text-white' : 'text-[#043259] hover:text-[#e35a11]'}`}
+            className="md:hidden p-1 text-[#043259] hover:text-[#e35a11]"
           >
             {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -520,38 +457,34 @@ Please register our store and send early wholesale partner sheets before the gra
  
       {/* Mobile context dropdown nav */}
       {mobileMenuOpen && (
-        <div className={`md:hidden border-b px-4 py-4 flex flex-col gap-3 text-left text-xs uppercase font-extrabold tracking-wider z-50 relative animate-fade-in ${
-          isMonsoonMode 
-            ? 'bg-[#040c17] border-blue-950/20 text-slate-100' 
-            : 'bg-[#FAF7EE] border-[#043259]/10 text-slate-700'
-        }`}>
+        <div className="md:hidden border-b px-4 py-4 flex flex-col gap-3 text-left text-xs uppercase font-extrabold tracking-wider z-50 relative animate-fade-in bg-[#FAF7EE] border-[#043259]/10 text-slate-700">
           <button
             onClick={() => { setActiveTab('landing'); setMobileMenuOpen(false); }}
-            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'landing' ? 'bg-[#e35a11] text-white' : (isMonsoonMode ? 'text-sky-200' : 'text-slate-700')}`}
+            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'landing' ? 'bg-[#e35a11] text-white' : 'text-slate-700'}`}
           >
             Welcome Hub
           </button>
           <button
             onClick={() => { setActiveTab('catalog'); setMobileMenuOpen(false); }}
-            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'catalog' ? 'bg-[#e35a11] text-white' : (isMonsoonMode ? 'text-sky-200' : 'text-slate-700')}`}
+            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'catalog' ? 'bg-[#e35a11] text-white' : 'text-slate-700'}`}
           >
             Products Catalogue
           </button>
           <button
             onClick={() => { setActiveTab('notices'); setMobileMenuOpen(false); }}
-            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'notices' ? 'bg-[#e35a11] text-white' : (isMonsoonMode ? 'text-sky-200' : 'text-slate-700')}`}
+            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'notices' ? 'bg-[#e35a11] text-white' : 'text-slate-700'}`}
           >
             Offers & Notices
           </button>
           <button
             onClick={() => { setActiveTab('forge'); setMobileMenuOpen(false); }}
-            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'forge' ? 'bg-[#e35a11] text-white' : (isMonsoonMode ? 'text-sky-200' : 'text-slate-700')}`}
+            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'forge' ? 'bg-[#e35a11] text-white' : 'text-slate-700'}`}
           >
             AI Freight Strategist
           </button>
           <button
             onClick={() => { setActiveTab('atelier'); setMobileMenuOpen(false); }}
-            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'atelier' ? 'bg-[#e35a11] text-white' : (isMonsoonMode ? 'text-sky-200' : 'text-slate-700')}`}
+            className={`py-2 px-3 rounded-lg text-left ${activeTab === 'atelier' ? 'bg-[#e35a11] text-white' : 'text-slate-700'}`}
           >
             Atelier Specs & Logo Station
           </button>
@@ -578,20 +511,13 @@ Please register our store and send early wholesale partner sheets before the gra
         {activeTab === 'landing' && (
           <div id="landing-splash-view" className="space-y-8 animate-fade-in text-left">
             
-            {/* Kerala Monsoon Interactive Sound Synth & Particle System */}
-            <MonsoonRainFX isMonsoonMode={isMonsoonMode} onToggleMonsoonMode={setIsMonsoonMode} />
-            
             {/* HERO HERO SECTION BENTO SPLIT */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch pt-2">
               
               {/* BENTO CARD 1: Digital Representation of User's Warehouse Logo Image */}
               <div 
                 id="hero-warehouse-showroom-card" 
-                className={`lg:col-span-4 rounded-3xl p-6 sm:p-7 flex flex-col items-center justify-between min-h-[380px] shadow-xl relative overflow-hidden group transition-all duration-500 border ${
-                  isMonsoonMode 
-                    ? "bg-gradient-to-b from-[#0e1726] via-[#090f1a] to-[#040810] border-sky-950/20 text-slate-100 shadow-[0_15px_30px_rgba(2,5,10,0.4)]" 
-                    : "bg-gradient-to-b from-[#FAF7EE] via-[#F6F1E3] to-[#F3EAD5] border-[#d4af37]/20 text-slate-800"
-                }`}
+                className="lg:col-span-4 rounded-3xl p-6 sm:p-7 flex flex-col items-center justify-between min-h-[380px] shadow-xl relative overflow-hidden group transition-all duration-500 border bg-gradient-to-b from-[#FAF7EE] via-[#F6F1E3] to-[#F3EAD5] border-[#d4af37]/20 text-slate-800"
               >
                 {/* Visual perspective wireframe background approximating the receded supermarket aisles and warehouse rack lines */}
                 <div className="absolute inset-0 opacity-80 pointer-events-none mix-blend-multiply select-none">
@@ -632,21 +558,10 @@ Please register our store and send early wholesale partner sheets before the gra
 
                     <defs>
                       <radialGradient id="panelFloorGradient" cx="50%" cy="30%" r="62%">
-                        {isMonsoonMode ? (
-                          <>
-                            <stop offset="0%" stopColor="#1E293B" />
-                            <stop offset="30%" stopColor="#0B1329" />
-                            <stop offset="70%" stopColor="#060913" />
-                            <stop offset="100%" stopColor="#000000" />
-                          </>
-                        ) : (
-                          <>
-                            <stop offset="0%" stopColor="#FFFFFF" />
-                            <stop offset="30%" stopColor="#FAF7EE" />
-                            <stop offset="70%" stopColor="#F5EFE0" />
-                            <stop offset="100%" stopColor="#EADEC3" />
-                          </>
-                        )}
+                        <stop offset="0%" stopColor="#FFFFFF" />
+                        <stop offset="30%" stopColor="#FAF7EE" />
+                        <stop offset="70%" stopColor="#F5EFE0" />
+                        <stop offset="100%" stopColor="#EADEC3" />
                       </radialGradient>
                       <filter id="panelGlowBlur">
                         <feGaussianBlur stdDeviation="5" />
@@ -659,32 +574,20 @@ Please register our store and send early wholesale partner sheets before the gra
                 <div className="absolute inset-0 bg-radial-gradient from-amber-400/10 via-transparent to-transparent pointer-events-none" />
 
                 <div className="w-full flex justify-between items-center z-10">
-                  <span className={`text-[8px] tracking-widest font-extrabold px-2 py-1 rounded-md uppercase border ${
-                    isMonsoonMode 
-                      ? 'bg-sky-500/10 text-sky-300 border-sky-400/20' 
-                      : 'bg-[#043259]/5 text-[#043259] border-[#043259]/10'
-                  }`}>
+                  <span className="text-[8px] tracking-widest font-extrabold px-2 py-1 rounded-md uppercase border bg-[#043259]/5 text-[#043259] border-[#043259]/10">
                     Official Brand Identity
                   </span>
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                 </div>
 
                 {/* Center visual container matching the user-received brand picture exactly */}
-                <div className={`my-auto py-6 relative z-10 flex flex-col items-center justify-center p-6 sm:p-7 rounded-2xl border scale-100 group-hover:scale-[1.03] transition-all duration-300 ${
-                  isMonsoonMode 
-                    ? "bg-slate-950/80 border-slate-900/60 shadow-[0_15px_35px_rgba(3,10,22,0.6)]" 
-                    : "bg-white/50 backdrop-blur-md border-white/60 shadow-[0_15px_35px_rgba(4,50,89,0.06)]"
-                }`}>
-                  <PrimeLogo size={110} showText={true} houseColor={isMonsoonMode ? "#38BDF8" : "#043259"} maskColor={isMonsoonMode ? "#061325" : "#FAF7EE"} />
+                <div className="my-auto py-6 relative z-10 flex flex-col items-center justify-center p-6 sm:p-7 rounded-2xl border scale-100 group-hover:scale-[1.03] transition-all duration-300 bg-white/50 backdrop-blur-md border-white/60 shadow-[0_15px_35px_rgba(4,50,89,0.06)]">
+                  <PrimeLogo size={110} showText={true} houseColor="#043259" maskColor="#FAF7EE" />
                 </div>
 
                 <div className="w-full text-center z-10">
-                  <span className={`font-mono text-[8.5px] uppercase tracking-widest font-extrabold inline-flex items-center gap-1.5 backdrop-blur-xs py-1.5 px-3 rounded-full border transition-all ${
-                    isMonsoonMode 
-                      ? "bg-slate-950/80 border-slate-800 text-sky-300" 
-                      : "bg-white/70 text-slate-600 border-slate-300/30"
-                  }`}>
-                    <Sparkles size={9} className="text-amber-500 shrink-0 animate-pulse" /> TRIVANDRAM & KOLLAM SECTORS
+                  <span className="font-mono text-[8.5px] uppercase tracking-widest font-extrabold inline-flex items-center gap-1.5 backdrop-blur-xs py-1.5 px-3 rounded-full border transition-all bg-white/70 text-slate-600 border-slate-300/30">
+                    <Sparkles size={9} className="text-amber-500 shrink-0 animate-pulse" /> THIRUVANANTHAPURAM SECTOR
                   </span>
                 </div>
               </div>
@@ -806,27 +709,27 @@ Please register our store and send early wholesale partner sheets before the gra
             {/* BENTO GRID DEEP B2B OPERATIONS HUB */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               
-              {/* BENTO BLOCK 3: High-End Live GST Calculator Tool */}
+              {/* BENTO BLOCK 3: High-End Live GST & Reselling Margin Tool */}
               <div className="bg-[#121c33] border border-blue-900/30 rounded-3xl p-6 flex flex-col justify-between shadow-lg">
                 <div className="space-y-4">
                   <div className="flex justify-between items-center bg-[#091124] px-3 py-1.5 rounded-xl border border-white/5">
                     <span className="font-mono text-[9px] tracking-wider text-orange-500 font-bold uppercase flex items-center gap-1">
-                      <Percent size={11} /> B2B GST ESTIMATOR
+                      <Percent size={11} /> B2B RESELLING ESTIMATOR
                     </span>
-                    <span className="text-[9.5px] font-mono text-slate-400">18% Standard</span>
+                    <span className="text-[9.5px] font-mono text-slate-400">Profit Targets</span>
                   </div>
                   
                   <div className="space-y-3 pt-1">
-                    <h4 className="text-base font-serif font-bold text-white">Instant Quotation Helper</h4>
+                    <h4 className="text-base font-serif font-bold text-white">Reselling Helper</h4>
                     <p className="text-[11px] text-slate-400 leading-snug">
-                      Enter raw B2B amount to estimate CGST + SGST (18% for household/tape plies) or packaging tax codes:
+                      Enter your desired local retail selling goal (in ₹) to estimate standard wholesale budgets and profit shares:
                     </p>
                   </div>
 
                   {/* Calculator entries */}
                   <div className="space-y-2.5 bg-[#091124] p-3 rounded-2xl border border-blue-900/10">
                     <div className="space-y-1 text-left">
-                      <label className="block text-[8.5px] font-mono text-slate-500 uppercase font-bold">Base Cost (in ₹)</label>
+                      <label className="block text-[8.5px] font-mono text-slate-500 uppercase font-bold">Target Retail Sales (₹)</label>
                       <input
                         type="number"
                         value={gstCalc.baseAmount}
@@ -836,19 +739,19 @@ Please register our store and send early wholesale partner sheets before the gra
                     </div>
                     <div className="grid grid-cols-2 gap-2 text-left">
                       <div className="space-y-0.5">
-                        <span className="text-[8.5px] text-slate-500 uppercase font-mono block">Tax Amount</span>
-                        <span className="text-[13px] text-slate-300 font-bold font-mono">₹{gstCalc.taxAmount.toLocaleString('en-IN')}</span>
+                        <span className="text-[8.5px] text-slate-500 uppercase font-mono block">Estimated Margin (35%)</span>
+                        <span className="text-[13px] text-green-400 font-bold font-mono">₹{Math.round(gstCalc.baseAmount * 0.35).toLocaleString('en-IN')}</span>
                       </div>
                       <div className="space-y-0.5">
-                        <span className="text-[8.5px] text-slate-500 uppercase font-mono block">Gross Estimate</span>
-                        <span className="text-[13px] text-orange-400 font-bold font-mono">₹{gstCalc.netTotal.toLocaleString('en-IN')}</span>
+                        <span className="text-[8.5px] text-slate-500 uppercase font-mono block">Wholesale Cost (est)</span>
+                        <span className="text-[13px] text-orange-400 font-bold font-mono">₹{Math.round(gstCalc.baseAmount * 0.65).toLocaleString('en-IN')}</span>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <p className="text-[9.5px] text-slate-500 font-serif leading-snug pt-3 border-t border-white/5 italic text-center">
-                  *Standard statutory GST calculated (B2B tax credit invoice generated with GSTIN).
+                  *Standard statutory 18% GST fits wholesale invoice credits (GSTIN register verified).
                 </p>
               </div>
 
@@ -873,7 +776,7 @@ Please register our store and send early wholesale partner sheets before the gra
                   <div className="max-h-36 overflow-y-auto space-y-1.5 pr-1 text-[11px] select-text">
                     {[
                       { area: 'Thiruvananthapuram Sector (Chalai)', time: 'Daily Express Delivery' },
-                      { area: 'Kollam Sector (Hub)', time: 'Daily Direct Delivery' }
+                      { area: 'Local Trivandrum Outer Limits', time: 'Daily Direct Delivery' }
                     ].map((route, i) => (
                       <div key={i} className="flex justify-between items-center bg-[#091124]/70 p-2 rounded-lg border border-white/5">
                         <span className="text-white font-bold flex items-center gap-1">
@@ -1227,8 +1130,8 @@ Please register our store and send early wholesale partner sheets before the gra
                           />
                           <span className="text-slate-500">Bndl</span>
                         </div>
-                        <div className="text-right">
-                          <span className="text-slate-400">₹{lineTotal.toLocaleString('en-IN')}</span>
+                        <div className="text-right flex items-center gap-1 text-[10px] text-green-400 font-bold uppercase tracking-wider font-mono">
+                          <span>Verified Resell Stock</span>
                         </div>
                       </div>
                     </div>
@@ -1241,21 +1144,21 @@ Please register our store and send early wholesale partner sheets before the gra
             <div className="p-6 bg-[#091124] border-t border-blue-950/40 shrink-0 text-center space-y-4">
               <div className="space-y-1.5">
                 <div className="flex justify-between items-center text-xs text-slate-400 font-mono">
-                  <span>Net Wholesale Subtotal:</span>
+                  <span>Selected Product Types:</span>
                   <span className="text-white font-bold">
-                    ₹{cart.reduce((acc, item) => acc + item.product.wholesalePrice * item.qty, 0).toLocaleString('en-IN')}
+                    {cart.length}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-xs text-slate-400 font-mono pb-1">
-                  <span>Est. GST (18% Avg):</span>
+                  <span>Total Wholesale Volume:</span>
                   <span className="text-white font-bold">
-                    ₹{Math.round(cart.reduce((acc, item) => acc + item.product.wholesalePrice * item.qty, 0) * 0.18).toLocaleString('en-IN')}
+                    {cart.reduce((acc, item) => acc + item.qty, 0)} Bundles
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-sm border-t border-blue-950/40 pt-2 font-bold text-white leading-none">
-                  <span className="font-serif">Estimated Order Value:</span>
-                  <span className="text-orange-400 font-mono text-base">
-                    ₹{Math.round(cart.reduce((acc, item) => acc + item.product.wholesalePrice * item.qty, 0) * 1.18).toLocaleString('en-IN')}
+                  <span className="font-serif">Pricing Policy:</span>
+                  <span className="text-orange-400 font-mono text-xs uppercase tracking-wider font-bold">
+                    Custom Quotation Pending
                   </span>
                 </div>
               </div>
@@ -1303,12 +1206,12 @@ Please register our store and send early wholesale partner sheets before the gra
 
           <div className="md:col-span-4 space-y-3.5">
             <h4 className="font-mono text-[9px] tracking-widest text-[#94a3b8]/60 uppercase font-bold">STATE CARRIER LOGISTICS SECTORS</h4>
-            <ul className="space-y-1.5 text-white/80 font-medium">
+            <ul className="space-y-1.5 text-white/80 font-medium font-sans text-xs">
               <li className="flex items-center gap-1.5">
                 <Truck size={11} className="text-orange-500" /> Central Hub: Chalai Bazaar, Thiruvananthapuram (Opening Soon!)
               </li>
               <li className="flex items-center gap-1.5">
-                <Truck size={11} className="text-orange-500" /> Kollam Sector Main Yard
+                <Truck size={11} className="text-orange-500" /> Thiruvananthapuram Sector Main Yard (Chalai)
               </li>
             </ul>
           </div>

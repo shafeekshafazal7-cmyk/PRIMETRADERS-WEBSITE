@@ -16,6 +16,11 @@ export interface WholesaleProduct {
   gstRate: number; // typically 18% or 12%
   isAvailable: boolean;
   imageUrl?: string;
+  resellerInfo?: {
+    estimatedRetailMargin: string;
+    targetRetailSegment: string;
+    packagingOptions: string;
+  };
   specifications: { [key: string]: string };
   blueprintShape: {
     neckWidth: number;
@@ -33,14 +38,13 @@ export const FEATURED_BRANDS = [
   { name: 'Supreme Polymers', logo: 'SP' },
   { name: 'Milma Co-op Supplies', logo: 'MC' },
   { name: 'Cello Housewares', logo: 'CH' },
-  { name: 'Kollam Polymers Ltd', logo: 'KP' },
+  { name: 'Trivandrum Plastics Co', logo: 'TP' },
   { name: 'Prestige Commercial', logo: 'PC' },
   { name: '3M Industrial Kerala', logo: '3M' }
 ];
 
 export const KERALA_DISTRICTS = [
-  'Thiruvananthapuram',
-  'Kollam'
+  'Thiruvananthapuram'
 ];
 
 export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
@@ -817,24 +821,70 @@ export const WHOLESALE_PRODUCTS: WholesaleProduct[] = [
 
 export function getWhatsAppUrl(productName: string, queryType: string = 'pre-launch wholesale enquiry') {
   const adminPhone = '919446051515'; // Professional Kerala wholesale partner contact
-  const text = `Hello Prime Traders Thiruvananthapuram! I see your shop is debuting soon at Chalai Bazaar. I want to pre-register/make a ${queryType} for: "${productName}". Please send wholesale price list and pre-launch terms. Thank you!`;
+  const text = `Hello Prime Traders Thiruvananthapuram! I see your shop is debuting soon at Chalai Bazaar. I want to pre-register/make a ${queryType} for: "${productName}". Please send your wholesale reseller price sheet and custom volume brackets. Thank you!`;
   return `https://wa.me/${adminPhone}?text=${encodeURIComponent(text)}`;
+}
+
+export function getProductResellerInfo(product: WholesaleProduct) {
+  if (product.resellerInfo) {
+    return product.resellerInfo;
+  }
+  
+  const sub = product.subCategory.toLowerCase();
+  
+  if (sub.includes('cleaning') || sub.includes('squeegee')) {
+    return {
+      estimatedRetailMargin: '35% - 50% High Margin',
+      targetRetailSegment: 'Cleaning Outlets, Hotel Suppliers, Hardware Stores',
+      packagingOptions: 'Bulk Carton Packs with Private Label Support',
+    };
+  } else if (sub.includes('storage') || sub.includes('canister') || sub.includes('jar')) {
+    return {
+      estimatedRetailMargin: '25% - 40% Retail Markup',
+      targetRetailSegment: 'Homeware Stores, Supermarkets, Kitchen Boutiques',
+      packagingOptions: 'Pre-packaged Retail Box Sets or Custom Branding',
+    };
+  } else if (sub.includes('plastic') || sub.includes('basin') || sub.includes('tub')) {
+    return {
+      estimatedRetailMargin: '30% - 45% High Demand',
+      targetRetailSegment: 'General Provision Shops, Catering Services, Hardware Centers',
+      packagingOptions: 'Nestable stacks with volume barcoding options',
+    };
+  } else if (sub.includes('tape') || sub.includes('adhesive')) {
+    return {
+      estimatedRetailMargin: '20% - 35% Volume Mover',
+      targetRetailSegment: 'Logistics Centers, Stationery Retailers, E-commerce Warehouses',
+      packagingOptions: 'Shrink-wrapped tower sleeves with custom print core',
+    };
+  } else if (sub.includes('box') || sub.includes('carton') || sub.includes('corrugated')) {
+    return {
+      estimatedRetailMargin: '15% - 30% Steady Turn',
+      targetRetailSegment: 'Courier Services, Moving agencies, Packaging dealers',
+      packagingOptions: 'Flat bundles of 25 with heat-sealed strap ties',
+    };
+  } else if (sub.includes('carry') || sub.includes('bag')) {
+    return {
+      estimatedRetailMargin: '20% - 35% Daily Essential',
+      targetRetailSegment: 'Retail checkout counters, Bakeries, Supermarkets',
+      packagingOptions: 'Hanging-eye loop handle bales ready for billing stands',
+    };
+  }
+  
+  return {
+    estimatedRetailMargin: '25% - 40% Dynamic Margin',
+    targetRetailSegment: 'Wholesalers, General Retailers, Commercial outlets',
+    packagingOptions: 'Bulk bundle packaging with regional dealer support',
+  };
 }
 
 export function getCartWhatsAppUrl(cartItems: Array<{ product: WholesaleProduct; qty: number }>, businessInfo: { shopName: string; location: string; phone: string }) {
   const adminPhone = '919446051515';
   let listText = '';
-  let subtotal = 0;
   cartItems.forEach((item, idx) => {
-    const itemTotal = item.product.wholesalePrice * item.qty;
-    subtotal += itemTotal;
-    listText += `\n${idx + 1}. ${item.product.name} (Qty: ${item.qty} x ₹${item.product.wholesalePrice} = ₹${itemTotal})`;
+    listText += `\n${idx + 1}. ${item.product.name} (Qty: ${item.qty} units, Pack size: ${item.product.unitName})`;
   });
 
-  const gstValue = Math.round(subtotal * 0.18); // General avg 18% GST estimate
-  const finalEstimate = subtotal + gstValue;
-
-  const text = `*PRIME TRADERS THIRUVANANTHAPURAM (CHALAI) - PRE-LAUNCH B2B ENQUIRY BRIEF*
+  const text = `*PRIME TRADERS THIRUVANANTHAPURAM (CHALAI) - PRE-LAUNCH B2B QUOTATION BRIEF*
   
 *Distributor Details:*
 🏬 Shop/Hotel Name: ${businessInfo.shopName || 'Not Specified'}
@@ -843,12 +893,8 @@ export function getCartWhatsAppUrl(cartItems: Array<{ product: WholesaleProduct;
 
 *Pre-Registered Items List:*${listText}
 
-*Financial Estimations:*
-📈 Net Wholesale Subtotal: ₹${subtotal.toLocaleString('en-IN')}
-🧾 Est. GST (18% Avg): ₹${gstValue.toLocaleString('en-IN')}
-🪙 Est. Invoice Value: *₹${finalEstimate.toLocaleString('en-IN')}*
-
-Please register our B2B interest. We want to be first in line when the Prime Traders Chalai branch opens! Thank you.`;
+*Enquiry note:*
+We have selected the above products to query for custom wholesale pricing, bulk margins, and reselling licensing. Please register our B2B interest for when the Prime Traders Chalai branch opens and send us a tailored quote. Thank you.`;
 
   return `https://wa.me/${adminPhone}?text=${encodeURIComponent(text)}`;
 }
