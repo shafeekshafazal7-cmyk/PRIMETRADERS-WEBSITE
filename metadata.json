@@ -1,8 +1,6 @@
 {
-  "name": "Remix: Prime Agency",
-  "description": "Bespoke Household Articles Studio, Dynamic Brand Logo Maker, and AI-Driven Industrial Design Forge.",
+  "name": "Prime Traders",
+  "description": "Pre-debut online wholesale B2B hub representing Prime Traders of Chalai Bazaar, Thiruvananthapuram.",
   "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
